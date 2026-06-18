@@ -29,7 +29,7 @@ export const HeroSection = () => {
   const [projectCount, setProjectCount] = useState(5);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/projects`)
+    fetch(`${API_BASE}/api/projects?t=${Date.now()}`)
       .then(r => r.json())
       .then(d => {
         const count = d.projects?.length || 0;

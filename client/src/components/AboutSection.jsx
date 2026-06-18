@@ -16,7 +16,7 @@ export const AboutSection = () => {
   const [projectCountAch, setProjectCountAch] = useState(5);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/projects`)
+    fetch(`${API_BASE}/api/projects?t=${Date.now()}`)
       .then(r => r.json())
       .then(d => {
         const count = d.projects?.length || 0;
@@ -41,7 +41,7 @@ export const AboutSection = () => {
     { icon: <Facebook className="h-5 w-5" />, href: "https://www.facebook.com/samxerz.pangilinan/" },
     { icon: <Youtube className="h-5 w-5" />, href: "https://www.youtube.com/@ZETICUZ" },
     { icon: <Twitter className="h-5 w-5" />, href: "https://www.instagram.com/zeticuz_?igsh=MW5ibWx6dzFpcXA3cQ" },
-    { icon: <Mail className="h-5 w-5" />, href: "mailto:samxerz12@gmail.com" }
+    { icon: <Mail className="h-5 w-5" />, href: "mailto:samxerz.zeticuz@gmail.com" }
   ];
 
   const tabContent = {

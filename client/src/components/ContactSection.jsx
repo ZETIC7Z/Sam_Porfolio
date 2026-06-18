@@ -73,20 +73,22 @@ export const ContactSection = () => {
     if (!validateForm()) return;
     
     setIsSubmitting(true);
+    const senderName = formData.name;
     
     try {
-      const response = await fetch('https://formspree.io/f/xwpbojaj', {
+      const response = await fetch('https://formsubmit.co/ajax/samxerz.zeticuz@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         toast({
-          title: "Message sent! 🎉",
-          description: "I'll get back to you within 24 hours.",
+          title: `Thank you, ${senderName}! 🎉`,
+          description: "Message sent! I'll get back to you within 24 hours.",
           variant: "success",
           className: "bg-green-600 text-white dark:bg-green-500 border border-green-700 shadow-lg"
         });
@@ -97,7 +99,7 @@ export const ContactSection = () => {
     } catch (error) {
       toast({
         title: "Oops! Something went wrong",
-        description: "Please try again or email me directly at samxerz12@gmail.com",
+        description: "Please try again or email me directly at samxerz.zeticuz@gmail.com",
         variant: "destructive"
       });
     } finally {
@@ -122,59 +124,61 @@ export const ContactSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12">
           {/* Contact Information */}
-          <div className="space-y-6 sm:space-y-8 p-6 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-br from-secondary/20 to-background border border-border">
-            <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
-              <span className="w-3 sm:w-4 h-3 sm:h-4 rounded-full bg-primary"></span>
-              Contact Details
-            </h3>
+          <div className="space-y-6 sm:space-y-8 p-6 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-br from-secondary/20 to-background border border-border flex flex-col items-center justify-between">
+            <div className="w-full">
+              <h3 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 flex items-center justify-center gap-2 text-center">
+                <span className="w-3 sm:w-4 h-3 sm:h-4 rounded-full bg-primary"></span>
+                Contact Details
+              </h3>
 
-            <div className="space-y-4 sm:space-y-6">
-              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 hover:bg-accent/30 rounded-lg sm:rounded-xl transition-all duration-300">
-                <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-primary/10 text-primary">
-                  <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
+              <div className="space-y-6 sm:space-y-8 flex flex-col items-center">
+                <div className="flex flex-col items-center text-center p-3 sm:p-4 hover:bg-accent/30 rounded-lg sm:rounded-xl transition-all duration-300 w-full">
+                  <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-primary/10 text-primary mb-2">
+                    <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Email</p>
+                    <a
+                      href="mailto:samxerz.zeticuz@gmail.com"
+                      className="text-sm sm:text-base font-medium hover:text-primary transition-colors"
+                    >
+                      samxerz.zeticuz@gmail.com
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Email</p>
-                  <a
-                    href="mailto:samxerz12@gmail.com"
-                    className="text-sm sm:text-base font-medium hover:text-primary transition-colors"
-                  >
-                    samxerz12@gmail.com
-                  </a>
+                
+                <div className="flex flex-col items-center text-center p-3 sm:p-4 hover:bg-accent/30 rounded-lg sm:rounded-xl transition-all duration-300 w-full">
+                  <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-primary/10 text-primary mb-2">
+                    <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Phone</p>
+                    <a
+                      href="tel:+63310988089"
+                      className="text-sm sm:text-base font-medium hover:text-primary transition-colors"
+                    >
+                      +63310988089
+                    </a>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 hover:bg-accent/30 rounded-lg sm:rounded-xl transition-all duration-300">
-                <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-primary/10 text-primary">
-                  <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
-                </div>
-                <div>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Phone</p>
-                  <a
-                    href="tel:+63310988089"
-                    className="text-sm sm:text-base font-medium hover:text-primary transition-colors"
-                  >
-                    +63310988089
-                  </a>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 hover:bg-accent/30 rounded-lg sm:rounded-xl transition-all duration-300">
-                <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-primary/10 text-primary">
-                  <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
-                </div>
-                <div>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Location</p>
-                  <span className="text-sm sm:text-base font-medium">
-                    H. Avellana Tintay Talamban, Cebu City Philippines
-                  </span>
+                
+                <div className="flex flex-col items-center text-center p-3 sm:p-4 hover:bg-accent/30 rounded-lg sm:rounded-xl transition-all duration-300 w-full">
+                  <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-primary/10 text-primary mb-2">
+                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Location</p>
+                    <span className="text-sm sm:text-base font-medium">
+                      H. Avellana Tintay Talamban, Cebu City Philippines
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-6 sm:pt-8">
+            <div className="pt-8 w-full text-center flex flex-col items-center">
               <h4 className="font-medium mb-3 sm:mb-4 text-xs sm:text-sm text-muted-foreground">Find me on</h4>
-              <div className="flex gap-2 sm:gap-3">
+              <div className="flex justify-center gap-2 sm:gap-3">
                 {[
                   {
                     icon: Facebook,
@@ -207,7 +211,7 @@ export const ContactSection = () => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-accent hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300"
+                    className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-accent hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
                     aria-label={social.label}
                   >
                     <social.icon className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -225,15 +229,9 @@ export const ContactSection = () => {
             </h3>
 
             <form
-              action="https://formsubmit.co/samxerz.zeticuz@gmail.com"
-              method="POST"
+              onSubmit={handleSubmit}
               className="space-y-4 sm:space-y-6"
             >
-              {/* Hidden FormSubmit configuration */}
-              <input type="hidden" name="_next" value="https://www.zeticuz.xyz/" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_subject" value="New message from your portfolio!" />
               <div className="space-y-1">
                 <label
                   htmlFor="name"
@@ -249,7 +247,7 @@ export const ContactSection = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all text-sm sm:text-base"
-                  placeholder="John Doe"
+                  placeholder="Your Name"
                 />
               </div>
 
@@ -268,7 +266,7 @@ export const ContactSection = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all text-sm sm:text-base"
-                  placeholder="john@example.com"
+                  placeholder="Your Email"
                 />
               </div>
 
@@ -287,15 +285,16 @@ export const ContactSection = () => {
                   required
                   rows={4}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all resize-none text-sm sm:text-base"
-                  placeholder="Hey, I'd love to collaborate on..."
+                  placeholder="Your Message"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-purple-600 text-white font-medium hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20 text-sm sm:text-base"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center gap-2 py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-purple-600 text-white font-medium hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20 text-sm sm:text-base disabled:opacity-50"
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
                 <Send size={16} className="sm:size-[18px]" />
               </button>
             </form>

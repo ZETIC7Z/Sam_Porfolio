@@ -1,7 +1,8 @@
 # 💼 Sam Portfolio — AI-First Full-Stack Engineer
 
-## 🌐 Live Site
-**https://www.zeticuz.xyz/**
+## 🌐 Deployed Sites
+- **Frontend App:** [https://sam-porfolio-front.vercel.app](https://sam-porfolio-front.vercel.app)
+- **Backend API:** [https://sam-porfolio-back.vercel.app](https://sam-porfolio-back.vercel.app)
 
 ---
 
@@ -11,39 +12,34 @@
 
 - 🔗 **GitHub:** [github.com/ZETIC7Z](https://github.com/ZETIC7Z)
 - 📺 **YouTube:** [@ZETICUZ](https://www.youtube.com/@ZETICUZ)
-- 📧 **Email:** samxerz12@gmail.com
+- 📧 **Email:** [samxerz.zeticuz@gmail.com](mailto:samxerz.zeticuz@gmail.com)
 - 📍 **Location:** Cebu City, Philippines
 
 ---
 
-## 🚀 Tech Stack
+## 🚀 Key System Features
 
-### Frontend
-- ⚛️ React 18
-- 💙 TypeScript
-- 💨 Tailwind CSS
-- 🎬 Framer Motion
-- ⚡ Vite
-- 🎨 Material-UI (MUI)
-- 🧩 shadcn/ui
-- 🔀 React Router v6
+We have refactored this project into a decoupled architecture containing a modern Vite/React frontend and a serverless Node.js backend.
 
-### Backend
-- 🟢 Node.js
-- 🚀 Express.js
-- 🍃 MongoDB
-- 📦 Vercel Blob
-- 🔐 Supabase
+### 1. Serverless Node.js Backend (`backend/api`)
+- Serverless API handlers deployed directly on Vercel handling JWT authentication, portfolio administration, Vercel Blob integrations, and AI tasks.
 
-### Tools & Platforms
-- 🐙 Git & GitHub
-- 🆚 VS Code
-- ▲ Vercel
-- 🔁 Zustand
-- 📡 HLS.js
-- 📱 PWA (Progressive Web App)
-- 🔑 Clerk Auth
-- 📊 Excel Parsing
+### 2. Vercel Blob Database Integrations
+- Zero-database setup! All project records are saved as a structured JSON database file (`projects/projects.json`) stored and loaded directly from Vercel Blob.
+- Support for uploading and deleting CV/Resume PDF files and project screenshots.
+
+### 3. AI-Powered Project Auto-fill (`/api/github-analyze`)
+- Extracts metadata and tech stack information from any public GitHub repository URL.
+- Uses **OpenRouter API** (`openrouter/free`) to analyze repository source code, structures, and README files to automatically generate a project title, descriptions, tags, highlights, and demo links.
+
+### 4. Client-Side Image Compression
+- Uses HTML5 Canvas on the frontend to automatically downscale and compress user-uploaded device images to a maximum of 1200px and 80% JPEG quality before base64 transmission, ensuring it never hits Vercel's strict **4.5MB payload size limit**.
+
+### 5. Real-Time UI Synchronizations
+- Full drag-and-drop project reordering, additions, edits, and deletions update the React state instantly upon API response, utilizing cache-busting headers to prevent Vercel CDN replica propagation lag from displaying stale data.
+
+### 6. Seamless AJAX Form Submissions
+- Message forms utilize `https://formsubmit.co/ajax/` to submit technical inquiries asynchronously, showing custom thank-you alerts without refreshing or navigating away from the page.
 
 ---
 
@@ -98,84 +94,87 @@
 
 ```
 portfolio/
-├── client/
-│   ├── public/
-│   │   ├── projects/          # Project screenshots
-│   │   ├── testimonials/      # Testimonial images
-│   │   ├── og-image.png       # Social sharing image
-│   │   ├── favicon.png
-│   │   └── profile-logo.jpg
+├── backend/                   # Serverless Backend API
+│   ├── api/
+│   │   ├── _cors.js           # CORS middleware
+│   │   ├── login.js           # Admin token signing
+│   │   ├── projects.js        # Projects CRUD API (Vercel Blob)
+│   │   ├── upload.js          # Project image upload (Vercel Blob)
+│   │   ├── cv.js              # Fetch resume info
+│   │   ├── cv-upload.js       # Resume upload handler
+│   │   ├── cv-delete.js       # Resume deletion handler
+│   │   └── github-analyze.js  # AI Project Autofill API
+│   ├── package.json
+│   └── vercel.json
+├── client/                    # Frontend React App (Vite)
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── HeroSection.jsx
-│   │   │   ├── AboutSection.jsx
-│   │   │   ├── SkillsSection.jsx
-│   │   │   ├── ProjectsSection.jsx
-│   │   │   ├── Testimonial.jsx
-│   │   │   ├── ContactSection.jsx
-│   │   │   ├── Footer.jsx
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── WelcomeScreen.jsx
-│   │   │   └── NotFound.jsx
+│   │   ├── components/        # Sections: Hero, About, Skills, Projects, Testimonial, Contact
+│   │   ├── pages/             # Pages: Home, Admin, Dashboard
 │   │   ├── hooks/
 │   │   ├── lib/
 │   │   ├── App.jsx
 │   │   └── main.jsx
-│   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
+│   ├── vercel.json            # Rewrite configurations
+│   └── package.json
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started Locally
 
-### Prerequisites
-- Node.js 18+
-- npm or pnpm
+### 1. Set up Environment Variables
+Create a `.env.local` inside the `client/` folder and a `.env` in the `backend/` folder with the following keys:
 
-### Installation
+```env
+# Backend Env Variables (.env)
+BLOB_READ_WRITE_TOKEN="your-vercel-blob-read-write-token"
+ADMIN_PASSWORD="your-secure-admin-dashboard-password"
+JWT_SECRET="your-jwt-signing-secret"
+OPENROUTER_API_KEY="your-openrouter-key"
 
+# Frontend Env Variables (client/.env.local)
+VITE_API_URL="http://localhost:3000"
+```
+
+### 2. Install Dependencies & Run
+First, start the API backend server:
+```bash
+cd backend
+npm install
+npm run dev # or vercel dev
+```
+
+Next, run the frontend:
 ```bash
 cd client
 npm install
-```
-
-### Development
-
-```bash
 npm run dev
 ```
 
-Open http://localhost:5173
-
-### Build for Production
-
-```bash
-npm run build
-```
+Open http://localhost:5173 to test your dashboard and autofill locally!
 
 ---
 
-## 🌐 Deployment
+## 🌐 Deploy to Vercel
 
-This project is deployed on **Vercel**.
+Both `client` and `backend` directories are configured as standalone Vercel projects.
 
-### Deploy to Vercel
-
+### Backend Deploy
 ```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Login
-vercel login
-
-# Deploy
-vercel --prod
+cd backend
+npx vercel link
+npx vercel env add BLOB_READ_WRITE_TOKEN # add production keys
+npx vercel deploy --prod
 ```
 
-Or connect your GitHub repository to Vercel for automatic deployments.
+### Frontend Deploy
+```bash
+cd client
+npx vercel link
+npx vercel env add VITE_API_URL # set to deployed backend URL
+npx vercel deploy --prod
+```
 
 ---
 

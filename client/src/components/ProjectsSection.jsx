@@ -128,7 +128,7 @@ export const ProjectsSection = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/projects`)
+    fetch(`${API_BASE}/api/projects?t=${Date.now()}`)
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch projects');
         return res.json();
