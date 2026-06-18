@@ -338,7 +338,7 @@ export const Navbar = () => {
           rel="noopener noreferrer"
           className={cn(
             "p-2 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md",
-            "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50",
+            "text-primary hover:bg-primary/10 dark:hover:bg-primary/20",
             "border border-gray-200 dark:border-gray-700 shadow-sm",
             "flex items-center justify-center"
           )}
@@ -357,7 +357,7 @@ export const Navbar = () => {
           rel="noopener noreferrer"
           className={cn(
             "p-2 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md",
-            "text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/50",
+            "text-primary hover:bg-primary/10 dark:hover:bg-primary/20",
             "border border-gray-200 dark:border-gray-700 shadow-sm",
             "flex items-center justify-center"
           )}
@@ -376,7 +376,7 @@ export const Navbar = () => {
           rel="noopener noreferrer"
           className={cn(
             "p-2 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md",
-            "text-red-600 hover:bg-red-100 dark:hover:bg-red-900/50",
+            "text-primary hover:bg-primary/10 dark:hover:bg-primary/20",
             "border border-gray-200 dark:border-gray-700 shadow-sm",
             "flex items-center justify-center"
           )}
