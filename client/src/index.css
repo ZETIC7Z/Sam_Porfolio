@@ -1,14 +1,113 @@
 @import "tailwindcss";
 
+@plugin "daisyui" {
+  themes: all;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  --color-base-100: hsl(210 40% 98%);
+  --color-base-200: hsl(0 0% 100%);
+  --color-base-300: hsl(214 32% 91%);
+  --color-base-content: hsl(222 47% 11%);
+  --color-primary: hsl(250 47% 60%);
+  --color-primary-content: hsl(210 40% 98%);
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  --color-base-100: hsl(222 47% 4%);
+  --color-base-200: hsl(222 47% 8%);
+  --color-base-300: hsl(217 33% 20%);
+  --color-base-content: hsl(213 31% 91%);
+  --color-primary: hsl(250 65% 65%);
+  --color-primary-content: hsl(213 31% 91%);
+}
+
+@plugin "daisyui/theme" {
+  name: "bumblebee-dark";
+  --color-base-100: #121212;
+  --color-base-200: #1a1a1a;
+  --color-base-300: #262626;
+  --color-base-content: #ffffff;
+  --color-primary: #e0a82e;
+  --color-primary-content: #121212;
+  --color-secondary: #f9d72f;
+  --color-secondary-content: #121212;
+  --color-accent: #181830;
+  --color-accent-content: #ffffff;
+}
+
+@plugin "daisyui/theme" {
+  name: "netflix";
+  --color-base-100: #141414;
+  --color-base-200: #1f1f1f;
+  --color-base-300: #2c2c2c;
+  --color-base-content: #e5e5e5;
+  --color-primary: #e50914;
+  --color-primary-content: #ffffff;
+  --color-secondary: #222222;
+  --color-secondary-content: #ffffff;
+  --color-accent: #b9090b;
+  --color-accent-content: #ffffff;
+}
+
+@plugin "daisyui/theme" {
+  name: "hbo";
+  --color-base-100: #0b001a;
+  --color-base-200: #120029;
+  --color-base-300: #200047;
+  --color-base-content: #f3f0f7;
+  --color-primary: #9933ff;
+  --color-primary-content: #ffffff;
+  --color-secondary: #1e0040;
+  --color-secondary-content: #ffffff;
+  --color-accent: #00ffff;
+  --color-accent-content: #0b001a;
+}
+
+@plugin "daisyui/theme" {
+  name: "prime";
+  --color-base-100: #0d1821;
+  --color-base-200: #15222e;
+  --color-base-300: #223240;
+  --color-base-content: #f0f4f8;
+  --color-primary: #00a8e1;
+  --color-primary-content: #0d1821;
+  --color-secondary: #1e293b;
+  --color-secondary-content: #ffffff;
+  --color-accent: #ff9900;
+  --color-accent-content: #0d1821;
+}
+
+@plugin "daisyui/theme" {
+  name: "vui";
+  --color-base-100: #111111;
+  --color-base-200: #1a1a1a;
+  --color-base-300: #252525;
+  --color-base-content: #e0e0e0;
+  --color-primary: #ffc107;
+  --color-primary-content: #111111;
+  --color-secondary: #252525;
+  --color-secondary-content: #ffffff;
+  --color-accent: #ffffff;
+  --color-accent-content: #111111;
+}
+
 @theme {
-  --color-border: hsl(var(--border));
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
+  --color-border: var(--color-base-300);
+  --color-background: var(--color-base-100);
+  --color-foreground: var(--color-base-content);
 
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-content);
 
-  --color-card: hsl(var(--card));
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-content);
+
+  --color-card: var(--color-base-200);
+  --color-muted: color-mix(in srgb, var(--color-base-content) 10%, transparent);
+  --color-muted-foreground: color-mix(in srgb, var(--color-base-content) 70%, transparent);
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
@@ -63,30 +162,6 @@
 }
 
 @layer base {
-  :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
-
-    --card: 0 0% 100%;
-
-    --primary: 250 47% 60%;
-    --primary-foreground: 210 40% 98%;
-
-    --border: 214 32% 91%;
-  }
-
-  .dark {
-    --background: 222 47% 4%;
-    --foreground: 213 31% 91%;
-
-    --card: 222 47% 8%;
-
-    --primary: 250 65% 65%;
-    --primary-foreground: 213 31% 91%;
-
-    --border: 217 33% 20%;
-  }
-
   * {
     @apply border-border;
   }
@@ -133,7 +208,7 @@
 
 @utility gradient-border {
   @apply relative rounded-md;
-  background: linear-gradient(to right, hsl(var(--card)), hsl(var(--card)));
+  background: linear-gradient(to right, var(--color-base-200), var(--color-base-200));
   background-clip: padding-box;
   border: 1px solid transparent;
 }

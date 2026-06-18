@@ -41,6 +41,12 @@ We have refactored this project into a decoupled architecture containing a moder
 ### 6. Seamless AJAX Form Submissions
 - Message forms utilize `https://formsubmit.co/ajax/` to submit technical inquiries asynchronously, showing custom thank-you alerts without refreshing or navigating away from the page.
 
+### 7. Multi-Theme UI Engine (37 Themes)
+- Fully loaded with 32 standard DaisyUI themes plus 5 custom-designed streaming dark mode themes (`Bumblebee Dark`, `Netflix`, `HBO Max`, `Prime Video`, and `Viu`).
+- Features an alphabetical header-based `ThemeDropdown` with 3-dot color swatches indicating `[Primary, Secondary, Background/Accent]` colors.
+- Custom event synchronization links the top dropdown with the bottom floating Sun/Moon `ThemeToggle` dynamically.
+- Dynamic text contrast mappings (e.g. `--color-muted-foreground` using `color-mix`) ensure high contrast, readability, and visual balance on any dark, light, or saturated backdrop.
+
 ---
 
 ## 🛠️ Featured Projects
