@@ -264,6 +264,7 @@ const ProjectForm = ({ initialData, onSave, onCancel, apiBase = '' }) => {
   const [analyzing, setAnalyzing] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [analyzeError, setAnalyzeError] = useState('');
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -326,6 +327,59 @@ const ProjectForm = ({ initialData, onSave, onCancel, apiBase = '' }) => {
     setImageFile(file);
   };
 
+  const compressImage = (file) => {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        resolve(file);
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+            const compressedFile = new File([blob], file.name, {
+              type: 'image/jpeg',
+              lastModified: Date.now()
+            });
+            resolve(compressedFile);
+          }, 'image/jpeg', 0.8);
+        };
+        img.onerror = () => resolve(file);
+      };
+      reader.onerror = (err) => reject(err);
+    });
+  };
+
   const uploadImage = async (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -341,7 +395,17 @@ const ProjectForm = ({ initialData, onSave, onCancel, apiBase = '' }) => {
               prefix: "projects/images/",
             }),
           });
+          
+          if (!res.ok) {
+            const errText = await res.text();
+            throw new Error(`Upload failed (${res.status}): ${errText.slice(0, 100)}`);
+          }
+
           const data = await res.json();
+          if (!data.success) {
+            throw new Error(data.error || "Upload failed");
+          }
+          
           resolve(data.file?.url || data.url || "");
         } catch (err) {
           reject(err);
@@ -355,12 +419,16 @@ const ProjectForm = ({ initialData, onSave, onCancel, apiBase = '' }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUploading(true);
+    setSubmitError('');
 
     let imageUrl = form.image;
     if (imageFile) {
       try {
-        imageUrl = await uploadImage(imageFile);
-      } catch {
+        const compressed = await compressImage(imageFile);
+        imageUrl = await uploadImage(compressed);
+      } catch (err) {
+        console.error('Image upload failed:', err);
+        setSubmitError(err.message || "Failed to upload image. Please try again.");
         setUploading(false);
         return;
       }
@@ -546,6 +614,12 @@ const ProjectForm = ({ initialData, onSave, onCancel, apiBase = '' }) => {
           Featured project
         </label>
       </div>
+
+      {submitError && (
+        <div className="text-sm text-red-500 font-medium bg-red-500/10 border border-red-500/20 p-3 rounded-lg">
+          {submitError}
+        </div>
+      )}
 
       <div className="flex gap-3 pt-2">
         <button
