@@ -1,4 +1,4 @@
-const cors = require('./_cors.cjs');
+const cors = require('./_cors.js');
 
 module.exports = async (req, res) => {
   if (cors(req, res)) return;
@@ -72,33 +72,43 @@ module.exports = async (req, res) => {
 
       let aiText = '';
 
-      // Try Pollinations first (free, no key needed)
-      const pollRes = await fetch('https://text.pollinations.ai/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(aiBody),
-      });
-      if (pollRes.ok) {
-        aiText = await pollRes.text();
-      } else if (openRouterKey) {
-        // Fallback to OpenRouter
-        const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${openRouterKey}`,
-            'HTTP-Referer': 'https://zeticuz.xyz',
-            'X-Title': 'Portfolio Dashboard',
-          },
-          body: JSON.stringify({
-            model: 'meta-llama/llama-3.1-8b-instruct:free',
-            ...aiBody,
-            temperature: 0.7,
-          }),
-        });
-        if (aiRes.ok) {
-          const aiData = await aiRes.json();
-          aiText = aiData.choices?.[0]?.message?.content || '';
+      if (openRouterKey) {
+        try {
+          const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${openRouterKey}`,
+              'HTTP-Referer': 'https://zeticuz.xyz',
+              'X-Title': 'Portfolio Dashboard',
+            },
+            body: JSON.stringify({
+              messages: aiBody.messages,
+              model: 'openrouter/free',
+              temperature: 0.7,
+            }),
+          });
+          if (aiRes.ok) {
+            const aiData = await aiRes.json();
+            aiText = aiData.choices?.[0]?.message?.content || '';
+          }
+        } catch (err) {
+          console.error('OpenRouter failed:', err.message);
+        }
+      }
+
+      if (!aiText) {
+        try {
+          const pollRes = await fetch('https://text.pollinations.ai/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(aiBody),
+          });
+          if (pollRes.ok) {
+            aiText = await pollRes.text();
+          }
+        } catch (err) {
+          console.error('Pollinations failed:', err.message);
         }
       }
 

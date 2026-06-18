@@ -1,4 +1,4 @@
-const cors = require('./_cors.cjs');
+const cors = require('./_cors.js');
 const { put, list } = require('@vercel/blob');
 
 const PROJECTS_BLOB_PATH = 'projects/projects.json';

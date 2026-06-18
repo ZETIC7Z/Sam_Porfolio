@@ -1,6 +1,13 @@
 {
   "devCommand": "npx vite --port $PORT",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/api/(.*)",
+      "destination": "https://sam-porfolio-back.vercel.app/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
   ]
 }

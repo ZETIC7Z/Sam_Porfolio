@@ -1,4 +1,4 @@
-const cors = require('./_cors.cjs');
+const cors = require('./_cors.js');
 const jwt = require('jsonwebtoken');
 
 const LOCAL_DEV_SECRET = 'portfolio-dev-secret-change-in-production';
