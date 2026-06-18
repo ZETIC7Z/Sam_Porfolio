@@ -244,7 +244,7 @@ const SortableProjectItem = ({ project, onEdit, onDelete }) => {
 };
 
 /* Project Form */
-const ProjectForm = ({ initialData, onSave, onCancel }) => {
+const ProjectForm = ({ initialData, onSave, onCancel, apiBase = '' }) => {
   const [form, setForm] = useState({
     id: initialData?.id || null,
     title: initialData?.title || "",
@@ -263,6 +263,7 @@ const ProjectForm = ({ initialData, onSave, onCancel }) => {
   const [uploading, setUploading] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  const [analyzeError, setAnalyzeError] = useState('');
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -282,12 +283,19 @@ const ProjectForm = ({ initialData, onSave, onCancel }) => {
   const handleAnalyze = async () => {
     if (!form.githubUrl) return;
     setAnalyzing(true);
+    setAnalyzeError('');
     try {
-      const res = await fetch(`${API_BASE}/api/github-analyze`, {
+      const endpoint = `${apiBase}/api/github-analyze`;
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ githubUrl: form.githubUrl }),
       });
+      if (!res.ok) {
+        const errText = await res.text();
+        setAnalyzeError(`Analyze failed (${res.status}): ${errText.slice(0, 120)}`);
+        return;
+      }
       const json = await res.json();
       if (json.success) {
         setForm(prev => ({
@@ -301,9 +309,12 @@ const ProjectForm = ({ initialData, onSave, onCancel }) => {
           demoUrl: json.data.demoUrl || prev.demoUrl,
           githubUrl: json.data.githubUrl || prev.githubUrl,
         }));
+      } else {
+        setAnalyzeError(json.error || 'Analyze returned no data.');
       }
     } catch (e) {
-      console.error(e);
+      console.error('Autofill error:', e);
+      setAnalyzeError(`Network error: ${e.message}`);
     } finally {
       setAnalyzing(false);
     }
@@ -321,7 +332,7 @@ const ProjectForm = ({ initialData, onSave, onCancel }) => {
       reader.onload = async () => {
         const base64 = reader.result.split(",")[1];
         try {
-          const res = await fetch(`${API_BASE}/api/upload`, {
+          const res = await fetch(`${apiBase}/api/upload`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -382,11 +393,15 @@ const ProjectForm = ({ initialData, onSave, onCancel }) => {
             type="button"
             onClick={handleAnalyze}
             disabled={analyzing || !form.githubUrl}
-            className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
+            className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
+            {analyzing && <span className="inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />}
             {analyzing ? 'Analyzing...' : 'Auto-fill'}
           </button>
         </div>
+        {analyzeError && (
+          <p className="mt-1 text-xs text-red-500">{analyzeError}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -988,6 +1003,7 @@ export function Dashboard() {
                           <ProjectForm
                             initialData={editingProject}
                             onSave={handleSaveProject}
+                            apiBase={API_BASE}
                             onCancel={() => {
                               setShowAddForm(false);
                               setEditingProject(null);
