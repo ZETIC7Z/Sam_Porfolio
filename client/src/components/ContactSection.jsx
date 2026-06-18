@@ -1,6 +1,7 @@
 import {
   Instagram,
-  Linkedin,
+  Youtube,
+  Facebook,
   Mail,
   MapPin,
   Phone,
@@ -173,6 +174,11 @@ export const ContactSection = () => {
               <h4 className="font-medium mb-3 sm:mb-4 text-xs sm:text-sm text-muted-foreground">Find me on</h4>
               <div className="flex gap-2 sm:gap-3">
                 {[
+                  {
+                    icon: Facebook,
+                    label: "Facebook",
+                    url: "https://www.facebook.com/samxerz.pangilinan/",
+                  },
                   {
                     icon: Youtube,
                     label: "YouTube",

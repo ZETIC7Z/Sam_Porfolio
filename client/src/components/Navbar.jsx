@@ -10,10 +10,10 @@ import {
   Sun,
   Moon,
   Youtube,
+  Facebook,
   Volume2,
   VolumeX,
   Github,
-  Linkedin,
   Globe,
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -185,9 +185,9 @@ export const Navbar = () => {
           <Github className="w-5 h-5" />
         </motion.a>
 
-        {/* LinkedIn Button */}
+        {/* Facebook Button */}
         <motion.a
-          href="https://x.com/SamXerz" 
+          href="https://www.facebook.com/samxerz.pangilinan/"
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
@@ -198,15 +198,15 @@ export const Navbar = () => {
           )}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          title="X Profile"
-          aria-label="X Profile"
+          title="Facebook Profile"
+          aria-label="Facebook Profile"
         >
-          <Linkedin className="w-5 h-5" />
+          <Facebook className="w-5 h-5" />
         </motion.a>
 
         {/* YouTube Button */}
         <motion.a
-          href="https://www.youtube.com/@codewithkinu"
+          href="https://www.youtube.com/@ZETICUZ"
           target="_blank"
           rel="noopener noreferrer"
           className={cn(

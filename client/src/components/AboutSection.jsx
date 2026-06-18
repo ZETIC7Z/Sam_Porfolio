@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Briefcase, Code, User, Download, Calendar, Sparkles, Target, Github, Youtube, Twitter, Mail, Star } from 'lucide-react';
+import { Briefcase, Code, User, Download, Calendar, Sparkles, Target, Github, Youtube, Facebook, Twitter, Mail, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const AboutSection = () => {
@@ -24,6 +24,7 @@ export const AboutSection = () => {
 
   const socialLinks = [
     { icon: <Github className="h-5 w-5" />, href: "https://github.com/ZETIC7Z" },
+    { icon: <Facebook className="h-5 w-5" />, href: "https://www.facebook.com/samxerz.pangilinan/" },
     { icon: <Youtube className="h-5 w-5" />, href: "https://www.youtube.com/@ZETICUZ" },
     { icon: <Twitter className="h-5 w-5" />, href: "https://www.instagram.com/zeticuz_?igsh=MW5ibWx6dzFpcXA3cQ" },
     { icon: <Mail className="h-5 w-5" />, href: "mailto:samxerz12@gmail.com" }

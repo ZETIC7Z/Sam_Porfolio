@@ -2,6 +2,7 @@ import {
   ArrowUp,
   Instagram,
   Youtube,
+  Facebook,
   Github,
   Mail,
   Phone,
@@ -14,6 +15,7 @@ export const Footer = () => {
   
   const socialLinks = [
     { icon: <Github size={18} />, label: "GitHub", href: "https://github.com/ZETIC7Z" },
+    { icon: <Facebook size={18} />, label: "Facebook", href: "https://www.facebook.com/samxerz.pangilinan/" },
     { icon: <Youtube size={18} />, label: "YouTube", href: "https://www.youtube.com/@ZETICUZ" },
     { icon: <Instagram size={18} />, label: "Instagram", href: "https://www.instagram.com/zeticuz_" },
     { icon: <Mail size={18} />, label: "Email", href: "mailto:samxerz12@gmail.com" },
