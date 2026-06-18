@@ -15,9 +15,11 @@ import {
   VolumeX,
   Github,
   Globe,
+  Shield,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 const navItems = [
   { name: "Home", href: "#hero", icon: Home },
@@ -59,7 +61,31 @@ const ThemeToggle = () => {
   );
 };
 
+const AdminButton = () => {
+  const navigate = useNavigate();
+  const hasToken = !!localStorage.getItem("admin_token");
+
+  return (
+    <motion.button
+      onClick={() => navigate(hasToken ? "/dashboard" : "/admin")}
+      className={cn(
+        "p-2 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md",
+        "text-primary hover:bg-primary/10 dark:hover:bg-primary/20",
+        "border border-gray-200 dark:border-gray-700 shadow-sm",
+        "flex items-center justify-center"
+      )}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      title={hasToken ? "Dashboard" : "Admin Login"}
+      aria-label={hasToken ? "Dashboard" : "Admin Login"}
+    >
+      <Shield className="w-5 h-5" />
+    </motion.button>
+  );
+};
+
 export const Navbar = () => {
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("#hero");
   const [showNavbar, setShowNavbar] = useState(true);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
@@ -222,6 +248,9 @@ export const Navbar = () => {
         >
           <Youtube className="w-5 h-5" />
         </motion.a>
+
+        {/* Admin / Dashboard Button */}
+        <AdminButton />
 
         {/* Music Button */}
         <motion.button

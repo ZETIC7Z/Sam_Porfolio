@@ -1,24 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { Briefcase, Code, User, Download, Calendar, Sparkles, Target, Github, Youtube, Facebook, Twitter, Mail, Star } from 'lucide-react';
+import { Briefcase, Code, User, Download, Calendar, Sparkles, Target, Github, Youtube, Facebook, Twitter, Mail, Star, Upload, ExternalLink } from 'lucide-react';
+
+const PROFILE_LOGO_URL = "https://w2zv1uvnmbhtwvqy.public.blob.vercel-storage.com/profile/profile-logo.jpg";
 import { motion, AnimatePresence } from 'framer-motion';
+import { techCategories, getTechIcon } from '@/lib/TechIcons';
 
 export const AboutSection = () => {
   const [activeTab, setActiveTab] = useState('personal');
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [counter, setCounter] = useState(0);
+  const [cvUrl, setCvUrl] = useState(null);
+  const [cvLoading, setCvLoading] = useState(true);
+
+  const [projectCountAch, setProjectCountAch] = useState(5);
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(r => r.json())
+      .then(d => {
+        const count = d.projects?.length || 0;
+        setProjectCountAch(count);
+      })
+      .catch(() => {});
+  }, []);
 
   const achievements = [
-    { number: "5+", label: "Projects", icon: <Briefcase className="h-5 w-5" />, suffix: "" },
+    { number: `${projectCountAch}+`, label: "Projects", icon: <Briefcase className="h-5 w-5" />, suffix: "" },
     { number: "5", label: "Years Exp", icon: <Calendar className="h-5 w-5" />, suffix: "+" },
     { number: "99", label: "Success", icon: <Target className="h-5 w-5" />, suffix: "%" },
     { number: "10", label: "Clients", icon: <User className="h-5 w-5" />, suffix: "+" }
   ];
 
-  const techStack = [
-    { category: "Frontend", items: ["React", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS", "Framer Motion", "Material-UI"] },
-    { category: "Backend", items: ["Node.js", "Express.js", "MongoDB"] },
-    { category: "Tools", items: ["Git", "GitHub", "VS Code", "Vite", "Vercel", "Vercel Blob", "PWA", "HLS.js", "Zustand", "Supabase", "shadcn/ui"] }
-  ];
+  const techStack = techCategories;
 
   const features = ["Full-stack expertise", "Clean, maintainable code", "Performance optimization", "Agile methodology", "24/7 support", "Timely delivery"];
 
@@ -47,14 +60,42 @@ export const AboutSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Programmatic download function
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/Sam-resume.pdf'; // Must be in public folder
-    link.download = 'Sam-resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  useEffect(() => {
+    fetch('/api/cv')
+      .then(res => {
+        if (!res.ok) throw new Error('No CV found');
+        return res.json();
+      })
+      .then(data => {
+        if (data && data.cv && data.cv.url) {
+          setCvUrl(data.cv.url);
+        }
+      })
+      .catch(() => {
+        // No CV uploaded — leave cvUrl as null
+      })
+      .finally(() => setCvLoading(false));
+  }, []);
+
+  // Download CV as a file using fetch → blob → object URL
+  const handleDownload = async () => {
+    if (!cvUrl) return;
+    try {
+      const res = await fetch(cvUrl);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const filename = decodeURIComponent(cvUrl.split('/').pop()?.split('?')[0] || 'Sam-resume.pdf');
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    } catch {
+      // Fallback: open in new tab
+      window.open(cvUrl, '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (
@@ -103,7 +144,7 @@ export const AboutSection = () => {
                   {/* Profile Image */}
                   <div className="relative flex-shrink-0">
                     <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-4 border-primary/20 shadow-2xl transition-all duration-500 group-hover:border-primary/40 group-hover:scale-105 md:group-hover:scale-110 relative">
-                      <img src="/profile-logo.jpg" alt="Sam" className="w-full h-full object-cover" />
+                      <img src={PROFILE_LOGO_URL} alt="Sam" className="w-full h-full object-cover" />
                       <div className="absolute -bottom-2 -right-2 w-6 h-6 sm:w-8 sm:h-8 bg-green-500 rounded-full border-4 border-background flex items-center justify-center">
                         <div className="w-2 h-2 bg-green-300 rounded-full animate-pulse" />
                       </div>
@@ -174,11 +215,15 @@ export const AboutSection = () => {
                       <h4 className="font-semibold text-sm sm:text-lg">{stack.category}</h4>
                     </div>
                     <div className="space-y-1 sm:space-y-2">
-                      {stack.items.map((item, itemIndex) => (
-                        <div key={itemIndex} className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">
-                          <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />{item}
-                        </div>
-                      ))}
+                      {stack.items.map((item, itemIndex) => {
+                        const Icon = getTechIcon(item);
+                        return (
+                          <div key={itemIndex} className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">
+                            <Icon className="w-4 h-4 text-primary" />
+                            <span>{item}</span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 ))}
@@ -196,16 +241,38 @@ export const AboutSection = () => {
                   <div className="flex items-center justify-center gap-2 sm:gap-3"><User className="h-4 sm:h-5 w-4 sm:w-5 group-hover:scale-110 transition-transform duration-300" />Start a Project</div>
                 </a>
 
-                {/* Download Button */}
-                <button
-                  onClick={handleDownload}
-                  className="flex-1 block w-full p-3 sm:p-4 border border-border rounded-xl text-center font-semibold transition-all duration-300 hover:bg-accent hover:border-primary/30 hover:scale-105 hover:shadow-lg group"
-                >
-                  <div className="flex items-center justify-center gap-2 sm:gap-3">
-                    <Download className="h-4 sm:h-5 w-4 sm:w-5 group-hover:translate-y-0.5 transition-transform duration-300" />
-                    Download Resume
-                  </div>
-                </button>
+                {/* CV Actions */}
+                {cvLoading ? (
+                  <button
+                    disabled
+                    className="flex-1 block w-full p-3 sm:p-4 border border-border rounded-xl text-center font-semibold transition-all duration-300 opacity-50 cursor-not-allowed"
+                  >
+                    <div className="flex items-center justify-center gap-2 sm:gap-3">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      Loading...
+                    </div>
+                  </button>
+                ) : cvUrl ? (
+                  <button
+                    onClick={handleDownload}
+                    className="flex-1 block w-full p-3 sm:p-4 border border-border rounded-xl text-center font-semibold transition-all duration-300 hover:bg-accent hover:border-primary/30 hover:scale-105 hover:shadow-lg group"
+                  >
+                    <div className="flex items-center justify-center gap-2 sm:gap-3">
+                      <Download className="h-4 sm:h-5 w-4 sm:w-5 group-hover:translate-y-0.5 transition-transform duration-300" />
+                      Download Resume
+                    </div>
+                  </button>
+                ) : (
+                  <a
+                    href="/dashboard"
+                    className="flex-1 block w-full p-3 sm:p-4 border border-border rounded-xl text-center font-semibold transition-all duration-300 hover:bg-accent hover:border-primary/30 hover:scale-105 hover:shadow-lg group"
+                  >
+                    <div className="flex items-center justify-center gap-2 sm:gap-3">
+                      <Upload className="h-4 sm:h-5 w-4 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
+                      No CV — Upload in Dashboard
+                    </div>
+                  </a>
+                )}
               </div>
 
               {/* Social Links */}

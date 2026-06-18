@@ -1,7 +1,7 @@
 # 💼 Sam Portfolio — AI-First Full-Stack Engineer
 
 ## 🌐 Live Site
-**https://devlyhub.in**
+**https://www.zeticuz.xyz/**
 
 ---
 

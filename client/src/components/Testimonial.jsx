@@ -5,6 +5,8 @@ import { useInView } from "framer-motion";
 import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 export const TestimonialSection = () => {
+  // This file is lazy-loaded via React.lazy() which requires a default export
+  void null;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const ref = useRef(null);
@@ -315,3 +317,5 @@ export const TestimonialSection = () => {
     </section>
   );
 };
+
+export default TestimonialSection;

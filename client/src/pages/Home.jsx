@@ -1,12 +1,20 @@
+import React, { Suspense, lazy } from "react";
 import { Navbar } from "../components/Navbar";
 import { StarBackground } from "@/components/StarBackground";
 import { HeroSection } from "../components/HeroSection";
 import { AboutSection } from "../components/AboutSection";
-import { SkillsSection } from "../components/SkillsSection";
-import { ProjectsSection } from "../components/ProjectsSection";
-import { ContactSection } from "../components/ContactSection";
 import { Footer } from "../components/Footer";
-import { TestimonialSection } from "../components/Testimonial";
+
+const SkillsSection = lazy(() => import("../components/SkillsSection"));
+const ProjectsSection = lazy(() => import("../components/ProjectsSection"));
+const ContactSection = lazy(() => import("../components/ContactSection"));
+const TestimonialSection = lazy(() => import("../components/Testimonial"));
+
+const LoadingSpinner = () => (
+  <div className="min-h-[300px] flex items-center justify-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+  </div>
+);
 
 export const Home = () => {
   return (
@@ -21,11 +29,18 @@ export const Home = () => {
       <main>
         <HeroSection />
         <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <TestimonialSection />
-        <ContactSection />
-        
+        <Suspense fallback={<LoadingSpinner />}>
+          <SkillsSection />
+        </Suspense>
+        <Suspense fallback={<LoadingSpinner />}>
+          <ProjectsSection />
+        </Suspense>
+        <Suspense fallback={<LoadingSpinner />}>
+          <TestimonialSection />
+        </Suspense>
+        <Suspense fallback={<LoadingSpinner />}>
+          <ContactSection />
+        </Suspense>
       </main>
 
       {/* Footer */}

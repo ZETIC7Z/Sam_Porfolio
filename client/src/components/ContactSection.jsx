@@ -15,6 +15,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
 export const ContactSection = () => {
+  // This file is lazy-loaded via React.lazy() which requires a default export
+  void null;
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -222,7 +224,16 @@ export const ContactSection = () => {
               Send Me a Message
             </h3>
 
-            <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+            <form
+              action="https://formsubmit.co/samxerz.zeticuz@gmail.com"
+              method="POST"
+              className="space-y-4 sm:space-y-6"
+            >
+              {/* Hidden FormSubmit configuration */}
+              <input type="hidden" name="_next" value="https://www.zeticuz.xyz/" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_subject" value="New message from your portfolio!" />
               <div className="space-y-1">
                 <label
                   htmlFor="name"
@@ -282,23 +293,10 @@ export const ContactSection = () => {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className={cn(
-                  "w-full flex items-center justify-center gap-2 py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-purple-600 text-white font-medium hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20 text-sm sm:text-base",
-                  isSubmitting && "opacity-80 cursor-not-allowed"
-                )}
+                className="w-full flex items-center justify-center gap-2 py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-purple-600 text-white font-medium hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20 text-sm sm:text-base"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    Send Message
-                    <Send size={16} className="sm:size-[18px]" />
-                  </>
-                )}
+                Send Message
+                <Send size={16} className="sm:size-[18px]" />
               </button>
             </form>
           </div>
@@ -307,3 +305,5 @@ export const ContactSection = () => {
     </section>
   );
 };
+
+export default ContactSection;

@@ -25,11 +25,23 @@ export const HeroSection = () => {
     "console.log('🚀 Let's build something exceptional together!');"
   ];
 
+  const [projectCount, setProjectCount] = useState(5);
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(r => r.json())
+      .then(d => {
+        const count = d.projects?.length || 0;
+        setProjectCount(count);
+      })
+      .catch(() => {});
+  }, []);
+
   const achievements = [
     { number: "5+", label: "Years in Production", icon: <Shield className="h-3 w-3" /> },
-    { number: "5+", label: "Projects Delivered", icon: <TrendingUp className="h-3 w-3" /> },
+    { number: `${projectCount}+`, label: "Projects Delivered", icon: <TrendingUp className="h-3 w-3" /> },
     { number: "100%", label: "Client Satisfaction", icon: <Award className="h-3 w-3" /> },
-    { number: "5+", label: "Projects Completed", icon: <Zap className="h-3 w-3" /> }
+    { number: `${projectCount}+`, label: "Projects Completed", icon: <Zap className="h-3 w-3" /> }
   ];
 
   useEffect(() => {
@@ -53,9 +65,27 @@ export const HeroSection = () => {
     }
   }, [displayedCode, currentCodeLine]);
 
+  const [cvUrl, setCvUrl] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/cv')
+      .then(res => {
+        if (!res.ok) throw new Error('No CV found');
+        return res.json();
+      })
+      .then(data => {
+        if (data && data.cv && data.cv.url) {
+          setCvUrl(data.cv.url);
+        }
+      })
+      .catch(() => {
+        // No CV uploaded — leave cvUrl as null
+      });
+  }, []);
+
   const handleViewResume = () => {
     // Open resume in new tab
-    window.open('/Sam-resume.pdf', '_blank', 'noopener,noreferrer');
+    window.open(cvUrl || '/Sam-resume.pdf', '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -140,12 +170,13 @@ export const HeroSection = () => {
               
               <motion.button 
                 onClick={handleViewResume}
-                className="group relative overflow-hidden px-6 py-4 rounded-xl font-semibold border border-border text-muted-foreground hover:border-primary/30 transition-all duration-300 bg-background/60 backdrop-blur-sm text-sm flex items-center justify-center gap-2" 
-                whileHover={{ scale: 1.05, y: -2 }} 
-                whileTap={{ scale: 0.95 }}
+                disabled={!cvUrl}
+                className="group relative overflow-hidden px-6 py-4 rounded-xl font-semibold border border-border text-muted-foreground hover:border-primary/30 transition-all duration-300 bg-background/60 backdrop-blur-sm text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" 
+                whileHover={cvUrl ? { scale: 1.05, y: -2 } : {}} 
+                whileTap={cvUrl ? { scale: 0.95 } : {}}
               >
                 <Download className="h-4 w-4" /> 
-                <span>View Resume</span>
+                <span>{cvUrl ? 'View Resume' : 'No CV'}</span>
               </motion.button>
             </motion.div>
 

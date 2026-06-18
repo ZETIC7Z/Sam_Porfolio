@@ -1,58 +1,45 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { techCategories, getTechIcon } from "@/lib/TechIcons";
 
-// Import your images
-import htmlIcon from "@/assets/icons/html.png";
-import cssIcon from "@/assets/icons/css.png";
-import jsIcon from "@/assets/icons/javascript.png";
-import tsIcon from "@/assets/icons/typescript.png";
-import reactIcon from "@/assets/icons/react.png";
-import nodejsIcon from "@/assets/icons/nodejs.png";
-import expressIcon from "@/assets/icons/express.png";
-import mongodbIcon from "@/assets/icons/mongodb.png";
-import gitIcon from "@/assets/icons/git.png";
-import githubIcon from "@/assets/icons/github.png";
-import vscodeIcon from "@/assets/icons/vscode.png";
+const categoryIdMap = {
+  Frontend: "frontend",
+  Backend: "backend",
+  Tools: "tools",
+  "AI Tools": "ai",
+};
 
-const skills = [
-  // Frontend
-  { name: "HTML5", level: 95, category: "frontend", icon: "html" },
-  { name: "CSS3", level: 90, category: "frontend", icon: "css" },
-  { name: "JavaScript", level: 95, category: "frontend", icon: "javascript" },
-  { name: "TypeScript", level: 90, category: "frontend", icon: "typescript" },
-  { name: "React", level: 95, category: "frontend", icon: "react" },
+const originalLevels = {
+  HTML5: 95,
+  CSS3: 90,
+  JavaScript: 95,
+  TypeScript: 90,
+  React: 95,
+  "Node.js": 90,
+  "Express.js": 85,
+  MongoDB: 85,
+  Git: 90,
+  GitHub: 90,
+  "VS Code": 95,
+};
 
-  // Backend
-  { name: "Node.js", level: 90, category: "backend", icon: "nodejs" },
-  { name: "Express", level: 85, category: "backend", icon: "express" },
-  { name: "MongoDB", level: 85, category: "backend", icon: "mongodb" },
-
-  // Tools
-  { name: "Git", level: 90, category: "tools", icon: "git" },
-  { name: "GitHub", level: 90, category: "tools", icon: "github" },
-  { name: "VS Code", level: 95, category: "tools", icon: "vscode" },
-];
+const allSkills = techCategories.flatMap(({ category, items }) =>
+  items.map((name) => ({
+    name,
+    level: originalLevels[name] ?? 80,
+    category: categoryIdMap[category] || "tools",
+  }))
+);
 
 const categories = [
   { id: "all", label: "All Skills", color: "bg-gradient-to-r from-purple-500 to-pink-500" },
   { id: "frontend", label: "Frontend", color: "bg-gradient-to-r from-blue-500 to-cyan-500" },
   { id: "backend", label: "Backend", color: "bg-gradient-to-r from-green-500 to-emerald-500" },
   { id: "tools", label: "Tools", color: "bg-gradient-to-r from-orange-500 to-yellow-500" },
+  { id: "ai", label: "AI Tools", color: "bg-gradient-to-r from-violet-500 to-purple-500" },
 ];
 
-const iconImages = {
-  html: htmlIcon,
-  css: cssIcon,
-  javascript: jsIcon,
-  typescript: tsIcon,
-  react: reactIcon,
-  nodejs: nodejsIcon,
-  express: expressIcon,
-  mongodb: mongodbIcon,
-  git: gitIcon,
-  github: githubIcon,
-  vscode: vscodeIcon,
-};
+
 
 const SkillBar = ({ level }) => (
   <div className="w-full h-3 bg-secondary/20 rounded-full overflow-hidden">
@@ -79,14 +66,17 @@ const InfiniteScrollSkills = ({ skills }) => {
         animate={{ x: ["0%", "-100%"] }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
       >
-        {duplicatedSkills.map((skill, index) => (
-          <div key={`${skill.name}-${index}`} className="flex-shrink-0 flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded-full bg-card border-2 border-primary/50 flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-              <img src={iconImages[skill.icon]} alt={skill.name} className="w-8 h-8 object-contain" />
+        {duplicatedSkills.map((skill, index) => {
+          const Icon = getTechIcon(skill.name);
+          return (
+            <div key={`${skill.name}-${index}`} className="flex-shrink-0 flex flex-col items-center gap-2">
+              <div className="w-16 h-16 rounded-full bg-card border-2 border-primary/50 flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                <Icon className="w-8 h-8 text-primary" />
+              </div>
+              <span className="text-sm font-medium text-center">{skill.name}</span>
             </div>
-            <span className="text-sm font-medium text-center">{skill.name}</span>
-          </div>
-        ))}
+          );
+        })}
       </motion.div>
       
       <motion.div
@@ -94,22 +84,27 @@ const InfiniteScrollSkills = ({ skills }) => {
         animate={{ x: ["-100%", "0%"] }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
       >
-        {[...duplicatedSkills].reverse().map((skill, index) => (
-          <div key={`${skill.name}-reverse-${index}`} className="flex-shrink-0 flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded-full bg-card border-2 border-primary/50 flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-              <img src={iconImages[skill.icon]} alt={skill.name} className="w-8 h-8 object-contain" />
+        {[...duplicatedSkills].reverse().map((skill, index) => {
+          const Icon = getTechIcon(skill.name);
+          return (
+            <div key={`${skill.name}-reverse-${index}`} className="flex-shrink-0 flex flex-col items-center gap-2">
+              <div className="w-16 h-16 rounded-full bg-card border-2 border-primary/50 flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                <Icon className="w-8 h-8 text-primary" />
+              </div>
+              <span className="text-sm font-medium text-center">{skill.name}</span>
             </div>
-            <span className="text-sm font-medium text-center">{skill.name}</span>
-          </div>
-        ))}
+          );
+        })}
       </motion.div>
     </div>
   );
 };
 
 export const SkillsSection = () => {
+  // This file is lazy-loaded via React.lazy() which requires a default export
+  void null;
   const [activeCategory, setActiveCategory] = useState("all");
-  const filteredSkills = skills.filter(skill => 
+  const filteredSkills = allSkills.filter(skill => 
     activeCategory === "all" || skill.category === activeCategory
   );
 
@@ -148,7 +143,7 @@ export const SkillsSection = () => {
         </div>
 
         {activeCategory === "all" ? (
-          <InfiniteScrollSkills skills={skills} />
+          <InfiniteScrollSkills skills={allSkills} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
@@ -163,7 +158,7 @@ export const SkillsSection = () => {
                 >
                   <div className="flex items-start gap-4 mb-5">
                     <div className="w-12 h-12 rounded-full bg-card border-2 border-primary/50 flex items-center justify-center">
-                      <img src={iconImages[skill.icon]} alt={skill.name} className="w-6 h-6 object-contain" />
+                      {(() => { const Icon = getTechIcon(skill.name); return <Icon className="w-6 h-6 text-primary" />; })()}
                     </div>
                     <div className="flex-1">
                       <div className="flex justify-between items-center mb-2">
@@ -195,3 +190,5 @@ export const SkillsSection = () => {
     </section>
   );
 };
+
+export default SkillsSection;

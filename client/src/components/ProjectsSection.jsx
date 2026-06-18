@@ -1,12 +1,23 @@
 import { ArrowRight, Github, ChevronUp, Star, Code, ChevronDown, Filter, Sparkles, Zap, Play, Eye, X } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
-const projects = [
+const ALL_CATEGORIES = [
+  "Community Platforms", "Corporate & Agency", "Directories & Listings",
+  "Documentation & Wikis", "E-Commerce Stores", "E-Learning & Courses",
+  "Enterprise Dashboards", "Events & Meetups", "Forums & Niche Clubs",
+  "Gaming & eSports", "Music & Audio", "News & Publishing",
+  "Non-Profit & Welfare", "Progressive Web Apps (PWA)", "Real Estate & Property",
+  "SaaS & Software", "Single Page Applications (SPA)", "Static Sites & Landing Pages",
+  "Video & Streaming", "Visual Arts & Design",
+];
+
+const DEFAULT_PROJECTS = [
   {
     id: 1,
     title: "SWS Skeptrons",
-    category: "Community Platform",
+    categories: ["Community Platforms"],
+    shortDescription: "Official website of the Social Welfare Skeptrons chapter featuring member verification, anniversary countdown, and event gallery.",
     description: "Official website of the Social Welfare Skeptrons chapter featuring member verification, anniversary countdown, and event gallery.",
     image: "/projects/project9.png",
     tags: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "MongoDB", "Express.js", "shadcn/ui"],
@@ -20,7 +31,8 @@ const projects = [
   {
     id: 2,
     title: "Zetflix TV",
-    category: "Entertainment",
+    categories: ["Video & Streaming"],
+    shortDescription: "Entertainment hub for discovering movies, TV shows, and personalities with personalized dashboards and watchlists.",
     description: "Entertainment hub for discovering movies, TV shows, and personalities with personalized dashboards and watchlists.",
     image: "/projects/project10.png",
     tags: ["React", "Node.js", "MongoDB", "Material-UI", "TMDB API", "Supabase", "Redux"],
@@ -34,7 +46,8 @@ const projects = [
   {
     id: 3,
     title: "NEXUS",
-    category: "Streaming PWA",
+    categories: ["Video & Streaming", "Progressive Web Apps (PWA)"],
+    shortDescription: "Premium streaming platform with HD movies, TV shows, and anime featuring a Netflix-style player and PWA support.",
     description: "Premium streaming platform with HD movies, TV shows, and anime featuring a Netflix-style player and PWA support.",
     image: "/projects/project11.png",
     tags: ["React", "TypeScript", "Tailwind CSS", "Zustand", "HLS.js", "PWA", "Vite"],
@@ -48,7 +61,8 @@ const projects = [
   {
     id: 4,
     title: "GMCS Dashboard",
-    category: "Enterprise Dashboard",
+    categories: ["Enterprise Dashboards"],
+    shortDescription: "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
     description: "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
     image: "/projects/project12.png",
     tags: ["HTML", "JavaScript", "Node.js", "Express.js", "Vercel Blob", "Excel Parsing"],
@@ -62,7 +76,8 @@ const projects = [
   {
     id: 5,
     title: "Dekaron Stampede",
-    category: "Gaming Portal",
+    categories: ["Gaming & eSports"],
+    shortDescription: "Premium gaming portal for the Dekaron MMORPG community featuring a 14-class character gallery and cinematic effects.",
     description: "Premium gaming portal for the Dekaron MMORPG community featuring a 14-class character gallery and cinematic effects.",
     image: "/projects/project13.png",
     tags: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "Lucide React"],
@@ -76,21 +91,60 @@ const projects = [
 ];
 
 const categoryColors = {
-  "Community Platform": "from-cyan-500/20 to-blue-600/20 text-cyan-600 border-cyan-500/30",
-  "Entertainment": "from-red-500/20 to-rose-600/20 text-red-600 border-red-500/30",
-  "Streaming PWA": "from-fuchsia-500/20 to-purple-600/20 text-fuchsia-600 border-fuchsia-500/30",
-  "Enterprise Dashboard": "from-slate-500/20 to-gray-600/20 text-slate-600 border-slate-500/30",
-  "Gaming Portal": "from-lime-500/20 to-green-600/20 text-lime-600 border-lime-500/30"
+  "Community Platforms": "from-cyan-500 to-blue-600",
+  "Corporate & Agency": "from-blue-500 to-indigo-600",
+  "Directories & Listings": "from-indigo-500 to-violet-600",
+  "Documentation & Wikis": "from-violet-500 to-purple-600",
+  "E-Commerce Stores": "from-purple-500 to-fuchsia-600",
+  "E-Learning & Courses": "from-fuchsia-500 to-pink-600",
+  "Enterprise Dashboards": "from-slate-500 to-gray-600",
+  "Events & Meetups": "from-amber-500 to-orange-600",
+  "Forums & Niche Clubs": "from-orange-500 to-red-600",
+  "Gaming & eSports": "from-lime-500 to-green-600",
+  "Music & Audio": "from-rose-500 to-pink-600",
+  "News & Publishing": "from-sky-500 to-cyan-600",
+  "Non-Profit & Welfare": "from-emerald-500 to-teal-600",
+  "Progressive Web Apps (PWA)": "from-teal-500 to-cyan-600",
+  "Real Estate & Property": "from-yellow-500 to-amber-600",
+  "SaaS & Software": "from-blue-500 to-sky-600",
+  "Single Page Applications (SPA)": "from-pink-500 to-rose-600",
+  "Static Sites & Landing Pages": "from-gray-500 to-slate-600",
+  "Video & Streaming": "from-red-500 to-rose-600",
+  "Visual Arts & Design": "from-purple-500 to-indigo-600",
 };
 
 export const ProjectsSection = () => {
+  // This file is lazy-loaded via React.lazy() which requires a default export
+  void null;
   const [showAll, setShowAll] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [hoveredProject, setHoveredProject] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const videoRef = useRef(null);
   const sectionRef = useRef(null);
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch projects');
+        return res.json();
+      })
+      .then(data => {
+        const list = data?.projects ?? data;
+        if (Array.isArray(list) && list.length > 0) {
+          setProjects(list);
+        } else {
+          setProjects(DEFAULT_PROJECTS);
+        }
+      })
+      .catch(() => {
+        setProjects(DEFAULT_PROJECTS);
+      })
+      .finally(() => setLoading(false));
+  }, []);
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -100,13 +154,13 @@ export const ProjectsSection = () => {
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
   const opacityBg = useTransform(scrollYProgress, [0, 0.5, 1], [0.1, 0.2, 0.1]);
 
-  const filteredProjects = activeFilter === "All" 
-    ? projects 
-    : projects.filter(project => project.category === activeFilter);
-  
+  const filteredProjects = activeFilter === "All"
+    ? projects
+    : projects.filter(project => (project.categories || [project.category])?.includes(activeFilter));
+
   const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
 
-  const categories = ["All", ...new Set(projects.map(project => project.category))];
+  const categories = ["All", ...ALL_CATEGORIES];
 
   const handleFilterChange = (category) => {
     setActiveFilter(category);
@@ -217,10 +271,17 @@ export const ProjectsSection = () => {
           </div>
         </motion.div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="flex justify-center items-center py-20">
+            <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          </div>
+        )}
+
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
           <AnimatePresence mode="wait">
-            {displayedProjects.map((project, index) => (
+            {!loading && displayedProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 layout
@@ -259,11 +320,13 @@ export const ProjectsSection = () => {
                       </div>
                     </div>
 
-                    {/* Category Badge */}
-                    <div className="absolute top-3 left-3">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${categoryColors[project.category]}`}>
-                        {project.category}
-                      </span>
+                    {/* Category Badges */}
+                    <div className="absolute top-3 left-3 flex flex-wrap gap-1 max-w-[70%]">
+                      {(project.categories || [project.category]).slice(0, 3).map((cat, i) => (
+                        <span key={i} className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border bg-gradient-to-r ${categoryColors[cat] || 'from-gray-500 to-gray-600'} text-white border-white/20`}>
+                          {cat}
+                        </span>
+                      ))}
                     </div>
 
                     {/* Hover Actions */}
@@ -321,7 +384,7 @@ export const ProjectsSection = () => {
                     </div>
 
                     <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-1">
-                      {project.description}
+                      {(project.shortDescription || project.description)?.slice(0, 135) + ((project.shortDescription || project.description)?.length > 135 ? '...' : '')}
                     </p>
 
                     {/* Key Features */}
@@ -499,9 +562,11 @@ export const ProjectsSection = () => {
                   <h3 className="text-xl font-bold text-foreground">
                     {selectedVideo.title} Demo
                   </h3>
-                  <p className="text-muted-foreground text-sm">
-                    {selectedVideo.category}
-                  </p>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {(selectedVideo.categories || [selectedVideo.category]).slice(0, 3).map((cat, i) => (
+                      <span key={i} className="text-xs text-muted-foreground">{cat}{i < (selectedVideo.categories || [selectedVideo.category]).slice(0, 3).length - 1 ? ', ' : ''}</span>
+                    ))}
+                  </div>
                 </div>
                 <motion.button
                   onClick={handleCloseVideo}
@@ -574,3 +639,5 @@ export const ProjectsSection = () => {
     </section>
   );
 };
+
+export default ProjectsSection;
