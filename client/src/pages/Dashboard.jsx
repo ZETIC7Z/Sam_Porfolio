@@ -283,7 +283,7 @@ const ProjectForm = ({ initialData, onSave, onCancel }) => {
     if (!form.githubUrl) return;
     setAnalyzing(true);
     try {
-      const res = await fetch('/api/github-analyze', {
+      const res = await fetch(`${API_BASE}/api/github-analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ githubUrl: form.githubUrl }),
@@ -321,7 +321,7 @@ const ProjectForm = ({ initialData, onSave, onCancel }) => {
       reader.onload = async () => {
         const base64 = reader.result.split(",")[1];
         try {
-          const res = await fetch("/api/upload", {
+          const res = await fetch(`${API_BASE}/api/upload`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -557,6 +557,7 @@ const ProjectForm = ({ initialData, onSave, onCancel }) => {
 /* Dashboard Page */
 export function Dashboard() {
   const navigate = useNavigate();
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   const [cv, setCv] = useState(null);
   const [cvLoading, setCvLoading] = useState(false);
   const [cvUploading, setCvUploading] = useState(false);
@@ -598,7 +599,7 @@ export function Dashboard() {
   const fetchCv = useCallback(async () => {
     setCvLoading(true);
     try {
-      const res = await fetchAuth("/api/cv");
+      const res = await fetchAuth(`${API_BASE}/api/cv`);
       if (res.ok) {
         const data = await res.json();
         setCv(data.cv || data || null);
@@ -620,7 +621,7 @@ export function Dashboard() {
     if (!cv) return;
     setCvLoading(true);
     try {
-      await fetchAuth("/api/cv-delete", {
+      await fetchAuth(`${API_BASE}/api/cv-delete`, {
         method: "POST",
         body: JSON.stringify({ pathname: cv.pathname || cv.url || cv }),
       });
@@ -649,7 +650,7 @@ export function Dashboard() {
     reader.onload = async () => {
       const base64 = reader.result.split(",")[1];
       try {
-        const res = await fetchAuth("/api/upload", {
+        const res = await fetchAuth(`${API_BASE}/api/upload`, {
           method: "POST",
           body: JSON.stringify({
             filename: file.name,
@@ -680,7 +681,7 @@ export function Dashboard() {
   const fetchProjects = useCallback(async () => {
     setProjectsLoading(true);
     try {
-      const res = await fetchAuth("/api/projects");
+      const res = await fetchAuth(`${API_BASE}/api/projects`);
       if (res.ok) {
         const data = await res.json();
         setProjects(Array.isArray(data) ? data : data.projects || []);
@@ -710,7 +711,7 @@ export function Dashboard() {
   const handleSaveReorder = async () => {
     if (!pendingReorder) return;
     try {
-      await fetchAuth("/api/projects", {
+      await fetchAuth(`${API_BASE}/api/projects`, {
         method: "PUT",
         body: JSON.stringify({ projects: pendingReorder }),
       });
@@ -728,7 +729,7 @@ export function Dashboard() {
   const handleDeleteProject = async (project) => {
     if (!window.confirm(`Are you sure you want to delete "${project.title}"?`)) return;
     try {
-      await fetchAuth("/api/projects", {
+      await fetchAuth(`${API_BASE}/api/projects`, {
         method: "DELETE",
         body: JSON.stringify({ id: project.id }),
       });
@@ -746,13 +747,13 @@ export function Dashboard() {
         const updated = projects.map((p) =>
           p.id === editingProject.id ? { ...p, ...payload } : p
         );
-        await fetchAuth("/api/projects", {
+        await fetchAuth(`${API_BASE}/api/projects`, {
           method: "PUT",
           body: JSON.stringify({ projects: updated }),
         });
       } else {
         // New project - POST as before
-        const res = await fetchAuth("/api/projects", {
+        const res = await fetchAuth(`${API_BASE}/api/projects`, {
           method: "POST",
           body: JSON.stringify(payload),
         });

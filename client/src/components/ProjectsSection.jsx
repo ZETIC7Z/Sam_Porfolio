@@ -114,6 +114,7 @@ const categoryColors = {
 };
 
 export const ProjectsSection = () => {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   // This file is lazy-loaded via React.lazy() which requires a default export
   void null;
   const [showAll, setShowAll] = useState(false);
@@ -127,7 +128,7 @@ export const ProjectsSection = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    fetch('/api/projects')
+    fetch(`${API_BASE}/api/projects`)
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch projects');
         return res.json();

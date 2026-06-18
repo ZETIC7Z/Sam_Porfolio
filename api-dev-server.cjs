@@ -30,13 +30,13 @@ if (fs.existsSync(envPath)) {
 
 // Import all API handlers
 const routes = {
-  '/api/login': require('./api/login.cjs'),
-  '/api/cv': require('./api/cv.cjs'),
-  '/api/cv-upload': require('./api/cv-upload.cjs'),
-  '/api/cv-delete': require('./api/cv-delete.cjs'),
-  '/api/projects': require('./api/projects.cjs'),
-  '/api/upload': require('./api/upload.cjs'),
-  '/api/github-analyze': require('./api/github-analyze.cjs'),
+  '/api/login': require('./api/login.js'),
+  '/api/cv': require('./api/cv.js'),
+  '/api/cv-upload': require('./api/cv-upload.js'),
+  '/api/cv-delete': require('./api/cv-delete.js'),
+  '/api/projects': require('./api/projects.js'),
+  '/api/upload': require('./api/upload.js'),
+  '/api/github-analyze': require('./api/github-analyze.js'),
 };
 
 function enhanceRes(res) {

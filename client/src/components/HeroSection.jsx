@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
 export const HeroSection = () => {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   const [currentCodeLine, setCurrentCodeLine] = useState(0);
@@ -28,7 +29,7 @@ export const HeroSection = () => {
   const [projectCount, setProjectCount] = useState(5);
 
   useEffect(() => {
-    fetch('/api/projects')
+    fetch(`${API_BASE}/api/projects`)
       .then(r => r.json())
       .then(d => {
         const count = d.projects?.length || 0;
@@ -68,7 +69,7 @@ export const HeroSection = () => {
   const [cvUrl, setCvUrl] = useState(null);
 
   useEffect(() => {
-    fetch('/api/cv')
+    fetch(`${API_BASE}/api/cv`)
       .then(res => {
         if (!res.ok) throw new Error('No CV found');
         return res.json();

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { techCategories, getTechIcon } from '@/lib/TechIcons';
 
 export const AboutSection = () => {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   const [activeTab, setActiveTab] = useState('personal');
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [counter, setCounter] = useState(0);
@@ -15,7 +16,7 @@ export const AboutSection = () => {
   const [projectCountAch, setProjectCountAch] = useState(5);
 
   useEffect(() => {
-    fetch('/api/projects')
+    fetch(`${API_BASE}/api/projects`)
       .then(r => r.json())
       .then(d => {
         const count = d.projects?.length || 0;
@@ -61,7 +62,7 @@ export const AboutSection = () => {
   }, []);
 
   useEffect(() => {
-    fetch('/api/cv')
+    fetch(`${API_BASE}/api/cv`)
       .then(res => {
         if (!res.ok) throw new Error('No CV found');
         return res.json();

@@ -4,6 +4,7 @@
   "type": "commonjs",
   "dependencies": {
     "@vercel/blob": "^2.4.0",
+    "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2"
   }
 }
