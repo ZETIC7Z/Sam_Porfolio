@@ -6,7 +6,8 @@ const PROJECTS_BLOB_PATH = 'projects/projects.json';
 async function getProjects() {
   const { blobs } = await list({ prefix: PROJECTS_BLOB_PATH });
   if (blobs.length === 0) return [];
-  const response = await fetch(blobs[0].url);
+  // Bypass Vercel Blob CDN caching by appending a unique timestamp
+  const response = await fetch(`${blobs[0].url}?t=${Date.now()}`);
   return response.json();
 }
 
@@ -21,6 +22,9 @@ async function saveProjects(projects) {
 
 module.exports = async (req, res) => {
   if (cors(req, res)) return;
+
+  // Prevent caching of projects list in browser and CDN
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 
   const { method } = req;
 

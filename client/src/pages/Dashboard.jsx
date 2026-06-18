@@ -770,7 +770,7 @@ export function Dashboard() {
   const fetchProjects = useCallback(async () => {
     setProjectsLoading(true);
     try {
-      const res = await fetchAuth(`${API_BASE}/api/projects`);
+      const res = await fetchAuth(`${API_BASE}/api/projects?t=${Date.now()}`);
       if (res.ok) {
         const data = await res.json();
         setProjects(Array.isArray(data) ? data : data.projects || []);
@@ -800,10 +800,13 @@ export function Dashboard() {
   const handleSaveReorder = async () => {
     if (!pendingReorder) return;
     try {
-      await fetchAuth(`${API_BASE}/api/projects`, {
+      const res = await fetchAuth(`${API_BASE}/api/projects`, {
         method: "PUT",
         body: JSON.stringify({ projects: pendingReorder }),
       });
+      if (res.ok) {
+        setProjects(pendingReorder);
+      }
     } catch {
       // ignore
     }
@@ -818,12 +821,13 @@ export function Dashboard() {
   const handleDeleteProject = async (project) => {
     if (!window.confirm(`Are you sure you want to delete "${project.title}"?`)) return;
     try {
-      await fetchAuth(`${API_BASE}/api/projects`, {
+      const res = await fetchAuth(`${API_BASE}/api/projects`, {
         method: "DELETE",
         body: JSON.stringify({ id: project.id }),
       });
-      setProjects((prev) => prev.filter((p) => p.id !== project.id));
-      fetchProjects();
+      if (res.ok) {
+        setProjects((prev) => prev.filter((p) => p.id !== project.id));
+      }
     } catch {
       // ignore
     }
@@ -836,12 +840,15 @@ export function Dashboard() {
         const updated = projects.map((p) =>
           p.id === editingProject.id ? { ...p, ...payload } : p
         );
-        await fetchAuth(`${API_BASE}/api/projects`, {
+        const res = await fetchAuth(`${API_BASE}/api/projects`, {
           method: "PUT",
           body: JSON.stringify({ projects: updated }),
         });
+        if (res.ok) {
+          setProjects(updated);
+        }
       } else {
-        // New project - POST as before
+        // New project - POST
         const res = await fetchAuth(`${API_BASE}/api/projects`, {
           method: "POST",
           body: JSON.stringify(payload),
@@ -855,7 +862,6 @@ export function Dashboard() {
       }
       setShowAddForm(false);
       setEditingProject(null);
-      fetchProjects();
     } catch {
       // ignore
     }
