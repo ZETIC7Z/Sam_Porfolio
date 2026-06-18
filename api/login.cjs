@@ -18,8 +18,8 @@ module.exports = async (req, res) => {
   // Parse request body
   const { password } = req.body || {};
 
-  // Validate password
-  if (password !== adminPassword) {
+  // Robust comparison (handle string/number mismatch or whitespace)
+  if (String(password || '').trim() !== String(adminPassword || '').trim()) {
     return res.status(401).json({ success: false, message: 'Invalid password' });
   }
 

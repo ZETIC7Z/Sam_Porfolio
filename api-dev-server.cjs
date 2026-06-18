@@ -7,8 +7,8 @@ const url = require('url');
 const fs = require('fs');
 const path = require('path');
 
-// Load .env.local from parent directory (portfolio/)
-const envPath = path.join(__dirname, '..', '.env.local');
+// Load .env.local from same directory (repo root)
+const envPath = path.join(__dirname, '.env.local');
 if (fs.existsSync(envPath)) {
   const envContent = fs.readFileSync(envPath, 'utf8');
   envContent.split('\n').forEach((line) => {

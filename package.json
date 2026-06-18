@@ -1,0 +1,9 @@
+{
+  "name": "sam-portfolio-api",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "dependencies": {
+    "@vercel/blob": "^2.4.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
