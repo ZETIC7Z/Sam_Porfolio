@@ -2,76 +2,145 @@
   {
     "id": 1,
     "title": "SWS Skeptrons",
-    "categories": ["Community Platforms"],
+    "categories": [
+      "Community Platforms"
+    ],
     "shortDescription": "Official website of the Social Welfare Skeptrons chapter featuring member verification, anniversary countdown, and event gallery.",
     "description": "Official website of the Social Welfare Skeptrons chapter featuring member verification, anniversary countdown, and event gallery.",
-    "image": "/projects/project9.png",
-    "tags": ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "MongoDB", "Express.js", "shadcn/ui"],
+    "image": "/projects/sws-skeptrons.vercel.app.png",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "MongoDB",
+      "Express.js",
+      "shadcn/ui"
+    ],
     "demoUrl": "https://sws-skeptrons.vercel.app",
     "githubUrl": "https://github.com/ZETIC7Z/sws-website",
     "featured": true,
     "accentColor": "from-cyan-500 to-blue-600",
     "status": "Live",
-    "highlights": ["Member verification", "Anniversary countdown", "Event gallery"]
+    "highlights": [
+      "Member verification",
+      "Anniversary countdown",
+      "Event gallery"
+    ]
   },
   {
     "id": 2,
     "title": "Zetflix TV",
-    "categories": ["Video & Streaming"],
+    "categories": [
+      "Video & Streaming"
+    ],
     "shortDescription": "Entertainment hub for discovering movies, TV shows, and personalities with personalized dashboards and watchlists.",
     "description": "Entertainment hub for discovering movies, TV shows, and personalities with personalized dashboards and watchlists.",
-    "image": "/projects/project10.png",
-    "tags": ["React", "Node.js", "MongoDB", "Material-UI", "TMDB API", "Supabase", "Redux"],
+    "image": "/projects/zetflix-tv.vercel.app.png",
+    "tags": [
+      "React",
+      "Node.js",
+      "MongoDB",
+      "Material-UI",
+      "TMDB API",
+      "Supabase",
+      "Redux"
+    ],
     "demoUrl": "https://zetflix-tv.vercel.app",
     "githubUrl": "https://github.com/ZETIC7Z/ZETFLIX-OFFICIAL",
     "featured": true,
     "accentColor": "from-red-500 to-rose-600",
     "status": "Live",
-    "highlights": ["Personalized dashboard", "Watchlist management", "TMDB integration"]
+    "highlights": [
+      "Personalized dashboard",
+      "Watchlist management",
+      "TMDB integration"
+    ]
   },
   {
     "id": 3,
     "title": "NEXUS",
-    "categories": ["Video & Streaming", "Progressive Web Apps (PWA)"],
+    "categories": [
+      "Video & Streaming",
+      "Progressive Web Apps (PWA)"
+    ],
     "shortDescription": "Premium streaming platform with HD movies, TV shows, and anime featuring a Netflix-style player and PWA support.",
     "description": "Premium streaming platform with HD movies, TV shows, and anime featuring a Netflix-style player and PWA support.",
-    "image": "/projects/project11.png",
-    "tags": ["React", "TypeScript", "Tailwind CSS", "Zustand", "HLS.js", "PWA", "Vite"],
+    "image": "/projects/zeticuz.online.png",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Zustand",
+      "HLS.js",
+      "PWA",
+      "Vite"
+    ],
     "demoUrl": "https://www.zeticuz.online",
     "githubUrl": "https://github.com/ZETIC7Z/NEXUS",
     "featured": true,
     "accentColor": "from-fuchsia-500 to-purple-600",
     "status": "Live",
-    "highlights": ["Netflix-style player", "PWA support", "Multi-source streaming"]
+    "highlights": [
+      "Netflix-style player",
+      "PWA support",
+      "Multi-source streaming"
+    ]
   },
   {
     "id": 4,
     "title": "GMCS Dashboard",
-    "categories": ["Enterprise Dashboards"],
+    "categories": [
+      "Enterprise Dashboards"
+    ],
     "shortDescription": "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
     "description": "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
-    "image": "/projects/project12.png",
-    "tags": ["HTML", "JavaScript", "Node.js", "Express.js", "Vercel Blob", "Excel Parsing"],
+    "image": "/projects/gmcs-dashboard.vercel.app.png",
+    "tags": [
+      "HTML",
+      "JavaScript",
+      "Node.js",
+      "Express.js",
+      "Vercel Blob",
+      "Excel Parsing"
+    ],
     "demoUrl": "https://gmcs-dashboard.vercel.app",
     "githubUrl": "https://github.com/ZETIC7Z/GMCS-Dashboard",
     "featured": true,
     "accentColor": "from-slate-500 to-gray-600",
     "status": "Live",
-    "highlights": ["Compliance tracking", "Geolocation analytics", "Theme switching"]
+    "highlights": [
+      "Compliance tracking",
+      "Geolocation analytics",
+      "Theme switching"
+    ]
   },
   {
     "id": 5,
     "title": "Dekaron Stampede",
-    "categories": ["Gaming & eSports"],
+    "categories": [
+      "Gaming & eSports"
+    ],
     "shortDescription": "Premium gaming portal for the Dekaron MMORPG community featuring a 14-class character gallery and cinematic effects.",
     "description": "Premium gaming portal for the Dekaron MMORPG community featuring a 14-class character gallery and cinematic effects.",
-    "image": "/projects/project13.png",
-    "tags": ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "Lucide React"],
+    "image": "/projects/dekaron-stampede.vercel.app.png",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Vite",
+      "Lucide React"
+    ],
     "demoUrl": "https://dekaron-stampede.vercel.app",
     "githubUrl": "https://github.com/ZETIC7Z/dekaron-stampede",
     "featured": true,
     "accentColor": "from-lime-500 to-green-600",
     "status": "Live",
-    "highlights": ["14-class gallery", "Cinematic effects", "Responsive design"]
+    "highlights": [
+      "14-class gallery",
+      "Cinematic effects",
+      "Responsive design"
+    ]
   }
 ]

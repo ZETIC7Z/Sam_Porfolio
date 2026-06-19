@@ -123,6 +123,6 @@ module.exports = async (req, res) => {
     });
   } catch (error) {
     console.error('Upload error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(403).json({ error: 'Live upload is disabled because the Vercel Blob store is blocked. Please run the project locally to manage projects and upload images, then push to GitHub.' });
   }
 };
