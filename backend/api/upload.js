@@ -1,4 +1,6 @@
 const cors = require('./_cors.js');
+const fs = require('fs');
+const path = require('path');
 const { put } = require('@vercel/blob');
 
 module.exports = async (req, res) => {
@@ -22,6 +24,81 @@ module.exports = async (req, res) => {
 
     const base64Data = data.replace(/^data:[^;]+;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
+
+    // In local development, save directly to the local client/public/ folder
+    if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+      if (prefix && prefix.startsWith('cv')) {
+        let cvDir = path.join(process.cwd(), 'client', 'public', 'cv');
+        if (!fs.existsSync(cvDir) && fs.existsSync(path.join(process.cwd(), '..', 'client'))) {
+          cvDir = path.join(process.cwd(), '..', 'client', 'public', 'cv');
+        }
+        
+        let dirExists = fs.existsSync(cvDir);
+        if (!dirExists) {
+          try {
+            fs.mkdirSync(cvDir, { recursive: true });
+            dirExists = true;
+          } catch (e) {}
+        }
+
+        if (dirExists) {
+          const filePath = path.join(cvDir, filename);
+          fs.writeFileSync(filePath, buffer);
+
+          // Update cv.json metadata
+          const cvMetadata = {
+            url: `/cv/${filename}`,
+            pathname: `cv/${filename}`,
+            uploadedAt: new Date().toISOString()
+          };
+          
+          let cvJsonPath = path.join(process.cwd(), 'backend', 'api', 'cv.json');
+          if (!fs.existsSync(path.dirname(cvJsonPath)) && fs.existsSync(path.join(process.cwd(), '..', 'backend'))) {
+            cvJsonPath = path.join(process.cwd(), '..', 'backend', 'api', 'cv.json');
+          }
+          
+          try {
+            fs.writeFileSync(cvJsonPath, JSON.stringify(cvMetadata, null, 2), 'utf8');
+          } catch (e) {
+            console.error('Error writing cv.json:', e);
+          }
+
+          console.log(`Saved CV locally: ${filePath}`);
+          return res.status(200).json({
+            success: true,
+            file: cvMetadata
+          });
+        }
+      } else {
+        let projectsDir = path.join(process.cwd(), 'client', 'public', 'projects');
+        if (!fs.existsSync(projectsDir) && fs.existsSync(path.join(process.cwd(), '..', 'client'))) {
+          projectsDir = path.join(process.cwd(), '..', 'client', 'public', 'projects');
+        }
+        
+        let dirExists = fs.existsSync(projectsDir);
+        if (!dirExists) {
+          try {
+            fs.mkdirSync(projectsDir, { recursive: true });
+            dirExists = true;
+          } catch (e) {}
+        }
+
+        if (dirExists) {
+          const filePath = path.join(projectsDir, filename);
+          fs.writeFileSync(filePath, buffer);
+          console.log(`Saved project image locally: ${filePath}`);
+          return res.status(200).json({
+            success: true,
+            file: {
+              url: `/projects/${filename}`,
+              pathname: `projects/${filename}`,
+            },
+          });
+        }
+      }
+    }
+
+    // In production (Vercel), try Vercel Blob
     const pathname = prefix ? `${prefix}${filename}` : filename;
 
     const blob = await put(pathname, buffer, {

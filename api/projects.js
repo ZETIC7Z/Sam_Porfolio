@@ -1,25 +1,60 @@
+const fs = require('fs');
+const path = require('path');
 const { put, list } = require('@vercel/blob');
 
 const PROJECTS_BLOB_PATH = 'projects/projects.json';
+const LOCAL_PROJECTS_PATH = path.join(__dirname, '..', 'backend', 'api', 'projects.json');
 
 async function getProjects() {
-  const { blobs } = await list({ prefix: PROJECTS_BLOB_PATH });
-
-  if (blobs.length === 0) {
-    return [];
+  // Always use local file in local development
+  if (fs.existsSync(LOCAL_PROJECTS_PATH)) {
+    try {
+      return JSON.parse(fs.readFileSync(LOCAL_PROJECTS_PATH, 'utf8'));
+    } catch (e) {
+      console.error('Error parsing local projects.json:', e);
+    }
   }
 
-  const response = await fetch(blobs[0].url);
-  return response.json();
+  // Fallback to Vercel Blob if local file fails/doesn't exist
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { blobs } = await list({ prefix: PROJECTS_BLOB_PATH });
+      if (blobs.length > 0) {
+        const response = await fetch(`${blobs[0].url}?t=${Date.now()}`);
+        const text = await response.text();
+        if (!text.startsWith('Your store is blocked') && !text.includes('blocked')) {
+          return JSON.parse(text);
+        }
+      }
+    } catch (error) {
+      console.error('Vercel Blob getProjects error:', error);
+    }
+  }
+
+  return [];
 }
 
 async function saveProjects(projects) {
-  const buffer = Buffer.from(JSON.stringify(projects));
-  await put(PROJECTS_BLOB_PATH, buffer, {
-    access: 'public',
-    token: process.env.BLOB_READ_WRITE_TOKEN,
-    allowOverwrite: true,
-  });
+  // Always write locally
+  const dir = path.dirname(LOCAL_PROJECTS_PATH);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  fs.writeFileSync(LOCAL_PROJECTS_PATH, JSON.stringify(projects, null, 2), 'utf8');
+
+  // Also write to Vercel Blob if token is available
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const buffer = Buffer.from(JSON.stringify(projects));
+      await put(PROJECTS_BLOB_PATH, buffer, {
+        access: 'public',
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+        allowOverwrite: true,
+      });
+    } catch (error) {
+      console.error('Vercel Blob saveProjects error:', error);
+    }
+  }
 }
 
 module.exports = async (req, res) => {
@@ -33,6 +68,11 @@ module.exports = async (req, res) => {
 
   const { method } = req;
 
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch { body = {}; }
+  }
+
   try {
     if (method === 'GET') {
       const projects = await getProjects();
@@ -40,7 +80,7 @@ module.exports = async (req, res) => {
     }
 
     if (method === 'POST') {
-      const { title, categories, shortDescription, description, image, tags, demoUrl, githubUrl, featured, accentColor, status, highlights } = req.body;
+      const { title, categories, shortDescription, description, image, tags, demoUrl, githubUrl, featured, accentColor, status, highlights } = body || {};
 
       const projects = await getProjects();
 
@@ -67,7 +107,7 @@ module.exports = async (req, res) => {
     }
 
     if (method === 'PUT') {
-      const { projects } = req.body;
+      const { projects } = body || {};
 
       if (!Array.isArray(projects)) {
         return res.status(400).json({ error: 'Projects must be an array' });
@@ -78,7 +118,7 @@ module.exports = async (req, res) => {
     }
 
     if (method === 'DELETE') {
-      const { id } = req.body;
+      const { id } = body || {};
 
       if (!id) {
         return res.status(400).json({ error: 'Missing project id' });
