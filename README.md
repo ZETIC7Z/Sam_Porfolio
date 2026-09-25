@@ -4,6 +4,8 @@
 - **Frontend App:** [https://sam-porfolio-front.vercel.app](https://sam-porfolio-front.vercel.app)
 - **Backend API:** [https://sam-porfolio-back.vercel.app](https://sam-porfolio-back.vercel.app)
 
+> **Last Updated:** September 25, 2026
+
 ---
 
 ## 👤 About
@@ -93,6 +95,42 @@ We have refactored this project into a decoupled architecture containing a moder
 - 🔗 **Live:** https://dekaron-stampede.vercel.app
 - 💻 **Repo:** https://github.com/ZETIC7Z/dekaron-stampede
 - 🏷️ **Tech:** React, TypeScript, Tailwind CSS, Framer Motion, Vite, Lucide React
+
+---
+
+### 6. CareerForm PH — Civil Service Toolkit
+> Civil Service Commission Personal Data Sheet (CS Form 212) builder with AI passport photo studio, digital e-signature, and Philippine government job board.
+
+- 🔗 **Live:** https://careerform-ph.vercel.app
+- 💻 **Repo:** https://github.com/ZETIC7Z/CareerForm
+- 🏷️ **Tech:** Next.js, React, TypeScript, Tailwind CSS, MongoDB, pdf-lib, Three.js
+
+---
+
+### 7. Life Coach Portfolio — Dark-Luxury Professional Site
+> Ultra-modern dark-luxury portfolio for Dr. Frances Gaik, PsyD — clinical psychologist, life coach, and author of Managing Depression with Qigong. Features 3D floating book hero, ambient video backgrounds, animated signature splash intro, and 13-palette dark theme engine.
+
+- 🔗 **Live:** https://lifecoachdoc.vercel.app
+- 💻 **Repo:** https://github.com/ZETIC7Z/Frances-Gaik-WEBSITE
+- 🏷️ **Tech:** Next.js, React, TypeScript, Three.js, Framer Motion, Playwright
+
+---
+
+### 8. Autobiography Website — Author Portfolio
+> Premium animated author portfolio for Nwanganga Shields — memoirist and former medical doctor. Features interactive book library, visitor analytics heatmap, and admin dashboard.
+
+- 🔗 **Live:** https://nwanganga-shields.vercel.app
+- 💻 **Repo:** https://github.com/ZETIC7Z/autobiography-test
+- 🏷️ **Tech:** TanStack Start, React, TypeScript, Tailwind CSS, Supabase, Framer Motion, Recharts
+
+---
+
+### 9. Life Coach v2 — Clinical Psychology Portfolio
+> Next-generation clinical psychology portfolio for Dr. Frances Gaik with 3D React Three Fiber elements, interactive book carousel, Radix UI components, and Vercel Analytics integration.
+
+- 🔗 **Live:** https://lifecoachdoc2.vercel.app
+- 💻 **Repo:** https://github.com/ZETIC7Z/lifecoachdoc2
+- 🏷️ **Tech:** Next.js, React, TypeScript, Three.js, Tailwind CSS, Radix UI, Framer Motion
 
 ---
 

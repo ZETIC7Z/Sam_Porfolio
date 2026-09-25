@@ -76,6 +76,22 @@
   </head>
 
   <body>
+    <!-- Theme initializer: runs before React to prevent flash -->
+    <script>
+      (function() {
+        try {
+          var stored = localStorage.getItem('theme') || 'dark';
+          document.documentElement.setAttribute('data-theme', stored);
+          // DaisyUI dark themes need 'dark' class for Tailwind dark: variants
+          var darkThemes = ['dark','acid','coffee','cyberpunk','dracula','forest','halloween','hbo','luxury','netflix','prime','vui','synthwave','black','business','night','dim','sunset','bumblebee-dark','cmyk-dark','autumn-dark','garden-dark'];
+          if (darkThemes.indexOf(stored) !== -1) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch(e) {}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

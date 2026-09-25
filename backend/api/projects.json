@@ -7,7 +7,8 @@
     ],
     "shortDescription": "Official website of the Social Welfare Skeptrons chapter featuring member verification, anniversary countdown, and event gallery.",
     "description": "Official website of the Social Welfare Skeptrons chapter featuring member verification, anniversary countdown, and event gallery.",
-    "image": "/projects/sws-skeptrons.vercel.app.png",
+    "image": "/projects/sws-landscape.png",
+    "portraitImage": "/projects/sws-portrait.png",
     "tags": [
       "React",
       "TypeScript",
@@ -37,6 +38,7 @@
     "shortDescription": "Entertainment hub for discovering movies, TV shows, and personalities with personalized dashboards and watchlists.",
     "description": "Entertainment hub for discovering movies, TV shows, and personalities with personalized dashboards and watchlists.",
     "image": "/projects/zetflix-tv.vercel.app.png",
+    "portraitImage": "/projects/zetflix-portrait.png",
     "tags": [
       "React",
       "Node.js",
@@ -66,7 +68,8 @@
     ],
     "shortDescription": "Premium streaming platform with HD movies, TV shows, and anime featuring a Netflix-style player and PWA support.",
     "description": "Premium streaming platform with HD movies, TV shows, and anime featuring a Netflix-style player and PWA support.",
-    "image": "/projects/zeticuz.online.png",
+    "image": "/projects/nexus-landscape.png",
+    "portraitImage": "/projects/nexus-portrait.png",
     "tags": [
       "React",
       "TypeScript",
@@ -89,30 +92,33 @@
   },
   {
     "id": 4,
-    "title": "GMCS Dashboard",
+    "title": "Autobiography Website",
     "categories": [
-      "Enterprise Dashboards"
+      "Single Page Applications (SPA)",
+      "News & Publishing"
     ],
-    "shortDescription": "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
-    "description": "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
-    "image": "/projects/gmcs-dashboard.vercel.app.png",
+    "shortDescription": "Premium animated author portfolio for Nwanganga Shields — memoirist and former medical doctor. Features interactive book library, visitor analytics heatmap, and admin dashboard.",
+    "description": "Premium animated author portfolio for Nwanganga Shields — memoirist and former medical doctor. Features interactive book library, visitor analytics heatmap, and admin dashboard.",
+    "image": "/projects/autobiography-landscape.png",
+    "portraitImage": "/projects/autobiography-portrait.png",
     "tags": [
-      "HTML",
-      "JavaScript",
-      "Node.js",
-      "Express.js",
-      "Vercel Blob",
-      "Excel Parsing"
+      "TanStack Start",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Supabase",
+      "Framer Motion",
+      "Recharts"
     ],
-    "demoUrl": "https://gmcs-dashboard.vercel.app",
-    "githubUrl": "https://github.com/ZETIC7Z/GMCS-Dashboard",
+    "demoUrl": "https://nwanganga-shields.vercel.app",
+    "githubUrl": "https://github.com/ZETIC7Z/autobiography-test",
     "featured": true,
-    "accentColor": "from-slate-500 to-gray-600",
+    "accentColor": "from-amber-500 to-orange-600",
     "status": "Live",
     "highlights": [
-      "Compliance tracking",
-      "Geolocation analytics",
-      "Theme switching"
+      "Interactive book library",
+      "Visitor analytics heatmap",
+      "Admin dashboard"
     ]
   },
   {
@@ -123,7 +129,8 @@
     ],
     "shortDescription": "Premium gaming portal for the Dekaron MMORPG community featuring a 14-class character gallery and cinematic effects.",
     "description": "Premium gaming portal for the Dekaron MMORPG community featuring a 14-class character gallery and cinematic effects.",
-    "image": "/projects/dekaron-stampede.vercel.app.png",
+    "image": "/projects/dekaron-landscape.png",
+    "portraitImage": "/projects/dekaron-portrait.png",
     "tags": [
       "React",
       "TypeScript",
@@ -141,6 +148,127 @@
       "14-class gallery",
       "Cinematic effects",
       "Responsive design"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "CareerForm PH",
+    "categories": [
+      "SaaS & Software",
+      "Progressive Web Apps (PWA)"
+    ],
+    "shortDescription": "Civil Service Commission Personal Data Sheet (CS Form 212) builder with AI passport photo studio, digital e-signature, and Philippine government job board.",
+    "description": "Civil Service Commission Personal Data Sheet (CS Form 212) builder with AI passport photo studio, digital e-signature, and Philippine government job board.",
+    "image": "/projects/careerform-landscape.png",
+    "portraitImage": "/projects/careerform-portrait.png",
+    "tags": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "MongoDB",
+      "pdf-lib",
+      "Three.js"
+    ],
+    "demoUrl": "https://careerform-ph.vercel.app/",
+    "githubUrl": "https://github.com/ZETIC7Z/CareerForm",
+    "featured": true,
+    "accentColor": "from-blue-500 to-indigo-600",
+    "status": "Live",
+    "highlights": [
+      "CS Form 212 builder",
+      "AI passport photo studio",
+      "Government job board"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Life Coach Portfolio",
+    "categories": [
+      "Corporate & Agency",
+      "Static Sites & Landing Pages"
+    ],
+    "shortDescription": "Ultra-modern dark-luxury portfolio for Dr. Frances Gaik, PsyD — clinical psychologist, life coach, and author of Managing Depression with Qigong.",
+    "description": "Ultra-modern dark-luxury portfolio for Dr. Frances Gaik, PsyD — clinical psychologist, life coach, and author of Managing Depression with Qigong. Features 3D floating book hero, ambient video backgrounds, animated signature splash intro, and 13-palette dark theme engine.",
+    "image": "/projects/lifecoach-landscape.png",
+    "portraitImage": "/projects/lifecoach-portrait.png",
+    "tags": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Three.js",
+      "Framer Motion",
+      "Playwright"
+    ],
+    "demoUrl": "https://lifecoachdoc.vercel.app/",
+    "githubUrl": "https://github.com/ZETIC7Z/Frances-Gaik-WEBSITE",
+    "featured": true,
+    "accentColor": "from-emerald-500 to-teal-600",
+    "status": "Live",
+    "highlights": [
+      "3D floating book hero",
+      "13-palette dark theme engine",
+      "Animated signature intro"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Life Coach v2",
+    "categories": [
+      "Corporate & Agency",
+      "Static Sites & Landing Pages"
+    ],
+    "shortDescription": "Next-generation clinical psychology portfolio for Dr. Frances Gaik with 3D React Three Fiber elements, interactive book carousel, and Vercel Analytics integration.",
+    "description": "Next-generation clinical psychology portfolio for Dr. Frances Gaik with 3D React Three Fiber elements, interactive book carousel, Radix UI components, and Vercel Analytics integration.",
+    "image": "/projects/lifecoach2-landscape.png",
+    "portraitImage": "/projects/lifecoach2-portrait.png",
+    "tags": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Three.js",
+      "Tailwind CSS",
+      "Radix UI",
+      "Framer Motion"
+    ],
+    "demoUrl": "https://lifecoachdoc2.vercel.app/",
+    "githubUrl": "https://github.com/ZETIC7Z/lifecoachdoc2",
+    "featured": true,
+    "accentColor": "from-rose-500 to-pink-600",
+    "status": "Live",
+    "highlights": [
+      "3D React Three Fiber",
+      "Interactive book carousel",
+      "Vercel Analytics"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "GMCS Dashboard",
+    "categories": [
+      "Enterprise Dashboards"
+    ],
+    "shortDescription": "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
+    "description": "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
+    "image": "/projects/gmcs-landscape.png",
+    "portraitImage": "/projects/gmcs-dashboard.vercel.app.png",
+    "tags": [
+      "HTML",
+      "JavaScript",
+      "Node.js",
+      "Express.js",
+      "Vercel Blob",
+      "Excel Parsing"
+    ],
+    "demoUrl": "https://gmcs-dashboard.vercel.app",
+    "githubUrl": "https://github.com/ZETIC7Z/GMCS-Dashboard",
+    "featured": true,
+    "accentColor": "from-slate-500 to-gray-600",
+    "status": "Live",
+    "highlights": [
+      "Compliance tracking",
+      "Geolocation analytics",
+      "Theme switching"
     ]
   }
 ]

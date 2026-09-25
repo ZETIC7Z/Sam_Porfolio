@@ -126,26 +126,31 @@ export const HeroSection = () => {
         <motion.div className="absolute bottom-20 right-10 w-72 h-72 rounded-full bg-gradient-to-r from-accent/10 to-primary/10 blur-[100px]" animate={{ x: [0, -40, 0], y: [0, 40, 0], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity, delay: 2 }} />
       </div>
 
-      <div className="container max-w-7xl mx-auto w-full mt-16 sm:mt-0">
-        <motion.div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-20" initial="hidden" animate={isInView ? "visible" : "hidden"} variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.25, delayChildren: 0.5 } } }}>
-          
-          <div className="flex-1 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
-            <motion.div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8 backdrop-blur-sm" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
-              <Briefcase className="h-4 w-4" /> Currently Accepting new Opportunities
+      <div className="container mx-auto px-4 z-10">
+        <motion.div className="flex flex-col lg:flex-row items-center justify-between gap-12" initial="hidden" animate={isInView ? "visible" : "hidden"} variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } }}>
+          <div className="flex-1 text-center lg:text-left max-w-2xl">
+            <motion.div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-xs font-semibold uppercase tracking-wider mb-6 backdrop-blur-sm" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
+              <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
+              <span>Currently Accepting New Opportunities</span>
             </motion.div>
 
-            <motion.h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
+            <motion.h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
               <span className="block text-foreground">I'm Sam Pangilinan</span>
-              <motion.span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mt-2" animate={{ backgroundPosition: ['0%', '100%', '0%'] }} transition={{ duration: 8, repeat: Infinity }} style={{ backgroundSize: '200% 100%' }}>
-       AI-First Full-Stack Engineer
+              <motion.span 
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mt-2" 
+                animate={{ backgroundPosition: ['0%', '100%', '0%'] }} 
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }} 
+                style={{ backgroundSize: '200% 100%' }}
+              >
+                AI-First Full-Stack Engineer
               </motion.span>
             </motion.h1>
 
-            <motion.p className="text-lg sm:text-xl text-muted-foreground mt-6 leading-relaxed max-w-2xl" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
+            <motion.p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
               I build <span className="text-primary font-semibold">high-performance web applications</span> that drive business growth. Specializing in React, Node.js, and scalable architecture for startups and enterprises.
             </motion.p>
 
-            <motion.div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-8" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
+            <motion.div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
               {achievements.map((achievement, index) => (
                 <div key={index} className="text-center p-4 rounded-xl bg-background/60 border border-border/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-300">
                   <div className="flex items-center justify-center gap-2 mb-2">
@@ -171,13 +176,12 @@ export const HeroSection = () => {
               
               <motion.button 
                 onClick={handleViewResume}
-                disabled={!cvUrl}
-                className="group relative overflow-hidden px-6 py-4 rounded-xl font-semibold border border-border text-muted-foreground hover:border-primary/30 transition-all duration-300 bg-background/60 backdrop-blur-sm text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" 
-                whileHover={cvUrl ? { scale: 1.05, y: -2 } : {}} 
-                whileTap={cvUrl ? { scale: 0.95 } : {}}
+                className="group relative overflow-hidden px-6 py-4 rounded-xl font-semibold border border-border text-foreground hover:border-primary/50 transition-all duration-300 bg-background/80 backdrop-blur-sm text-sm flex items-center justify-center gap-2" 
+                whileHover={{ scale: 1.05, y: -2 }} 
+                whileTap={{ scale: 0.95 }}
               >
-                <Download className="h-4 w-4" /> 
-                <span>{cvUrl ? 'View Resume' : 'No CV'}</span>
+                <Download className="h-4 w-4 text-primary" /> 
+                <span>View Resume</span>
               </motion.button>
             </motion.div>
 
@@ -189,90 +193,75 @@ export const HeroSection = () => {
           </div>
 
           <motion.div className="flex-1 flex justify-center lg:justify-end w-full" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
-            <div className="relative w-full max-w-md">
-              <motion.div className="bg-background/90 border border-border rounded-2xl p-8 backdrop-blur-sm shadow-2xl w-full group hover:shadow-3xl transition-all duration-500" whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 400, damping: 25 }}>
-                
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex gap-2">
-                    <div className="w-3 h-3 rounded-full bg-red-400/80"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-400/80"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-400/80"></div>
-                  </div>
-                  <div className="flex-1 text-center">
-                    <div className="text-sm font-mono font-semibold text-muted-foreground">portfolio.js</div>
-                  </div>
-                  <div className="w-4 h-4 bg-green-400/20 rounded-full animate-pulse"></div>
-                </div>
-
-                <div className="font-mono text-sm bg-primary/5 rounded-lg border border-primary/10 min-h-[280px] flex">
-                  <div className="p-6 w-full">
-                    <div className="grid grid-cols-1 gap-1 h-full content-start">
-                      {codeSnippets.map((line, index) => (
-                        <div 
-                          key={index}
-                          className={`
-                            min-h-[20px] flex items-start
-                            ${index < currentCodeLine ? 'opacity-100' : 'opacity-0'}
-                            ${index === currentCodeLine ? 'opacity-100' : ''}
-                            transition-opacity duration-150 ease-in-out
-                            ${line.includes("import") ? "text-purple-400 font-semibold" : 
-                              line.includes("const") || line.includes("new") ? "text-blue-400 font-semibold" :
-                              line.includes("React") || line.includes("Node.js") || line.includes("TypeScript") ? "text-cyan-400" :
-                              line.includes("FullStackDeveloper") ? "text-emerald-400 font-semibold" :
-                              line.includes("//") ? "text-muted-foreground italic" :
-                              line.includes("await") || line.includes("connect") ? "text-yellow-400" :
-                              line.includes("'") ? "text-amber-400" : 
-                              "text-foreground"}
-                          `}
-                        >
-                          {index < currentCodeLine ? line : ''}
-                          {index === currentCodeLine ? (
-                            <>
-                              {displayedCode}
-                              <motion.span 
-                                animate={{ opacity: [1, 0, 1] }} 
-                                transition={{ duration: 0.8, repeat: Infinity }} 
-                                className="ml-1 text-primary inline-block"
-                              >
-                                ▊
-                              </motion.span>
-                            </>
-                          ) : ''}
-                          {line === '' && '‎'}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <motion.div className="absolute -bottom-3 -right-3 w-14 h-14 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center border-2 border-background shadow-2xl" animate={{ y: [0, -5, 0], rotate: [0, -2, 0], scale: [1, 1.03, 1] }} transition={{ duration: 4, repeat: Infinity }}>
-                  <Code className="h-5 w-5 text-white" />
-                </motion.div>
-                
-                <motion.div className="absolute -top-3 -left-3 bg-background/90 backdrop-blur-sm px-4 py-2 rounded-xl border border-border shadow-lg flex items-center gap-2" initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 1.5, type: "spring" }}>
-                  <Award className="h-4 w-4 text-amber-500" />
-                  <span className="text-sm font-semibold text-foreground">Solutions</span>
-                </motion.div>
-                
-                <motion.div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-background/90 backdrop-blur-sm px-4 py-2 rounded-xl border border-border shadow-lg text-center" initial={{ scale: 0, y: 20 }} animate={{ scale: 1, y: 0 }} transition={{ delay: 2, type: "spring" }}>
-                  <div className="text-xs font-mono text-muted-foreground">Built with</div>
-                  <div className="text-sm font-bold text-foreground">Modern Tech</div>
-                </motion.div>
-              </motion.div>
+            {/* Expanded 3D Rotating Image Carousel — Exact CodePen abrOMLY with Floating Orb ZC Logo */}
+            <div className="carousel-3d" style={{ marginTop: '0rem' }}>
+              <div className="carousel-control-button left"><input type="radio" name="carousel-control-input" /></div>
+              <div className="carousel-control-button right"><input type="radio" name="carousel-control-input" defaultChecked /></div>
+              <div className="carousel-rotation-direction">
+                <ul className="carousel-item-wrapper" style={{ '--_num-elements': 9 }}>
+                  <li className="carousel-item" style={{ '--_index': 1, '--_image-url': "url('/projects/sws-portrait.png')", '--hover-color': 'rgba(6, 182, 212, 0.9)' }}>
+                    <a href="https://sws-skeptrons.vercel.app" target="_blank" rel="noopener noreferrer">SWS Skeptrons</a>
+                  </li>
+                  <li className="carousel-item" style={{ '--_index': 2, '--_image-url': "url('/projects/zetflix-portrait.png')", '--hover-color': 'rgba(239, 68, 68, 0.9)' }}>
+                    <a href="https://zetflix-tv.vercel.app" target="_blank" rel="noopener noreferrer">Zetflix TV</a>
+                  </li>
+                  <li className="carousel-item" style={{ '--_index': 3, '--_image-url': "url('/projects/nexus-portrait.png')", '--hover-color': 'rgba(168, 85, 247, 0.9)' }}>
+                    <a href="https://www.zeticuz.online" target="_blank" rel="noopener noreferrer">NEXUS</a>
+                  </li>
+                  <li className="carousel-item" style={{ '--_index': 4, '--_image-url': "url('/projects/autobiography-portrait.png')", '--hover-color': 'rgba(245, 158, 11, 0.9)' }}>
+                    <a href="https://nwanganga-shields.vercel.app" target="_blank" rel="noopener noreferrer">Autobiography Website</a>
+                  </li>
+                  <li className="carousel-item" style={{ '--_index': 5, '--_image-url': "url('/projects/dekaron-portrait.png')", '--hover-color': 'rgba(132, 204, 22, 0.9)' }}>
+                    <a href="https://dekaron-stampede.vercel.app" target="_blank" rel="noopener noreferrer">Dekaron Stampede</a>
+                  </li>
+                  <li className="carousel-item" style={{ '--_index': 6, '--_image-url': "url('/projects/careerform-portrait.png')", '--hover-color': 'rgba(59, 130, 246, 0.9)' }}>
+                    <a href="https://careerform-ph.vercel.app/" target="_blank" rel="noopener noreferrer">CareerForm PH</a>
+                  </li>
+                  <li className="carousel-item" style={{ '--_index': 7, '--_image-url': "url('/projects/lifecoach-portrait.png')", '--hover-color': 'rgba(16, 185, 129, 0.9)' }}>
+                    <a href="https://lifecoachdoc.vercel.app/" target="_blank" rel="noopener noreferrer">Life Coach Portfolio</a>
+                  </li>
+                  <li className="carousel-item" style={{ '--_index': 8, '--_image-url': "url('/projects/lifecoach2-portrait.png')", '--hover-color': 'rgba(244, 63, 94, 0.9)' }}>
+                    <a href="https://lifecoachdoc2.vercel.app/" target="_blank" rel="noopener noreferrer">Life Coach v2</a>
+                  </li>
+                  <li className="carousel-item" style={{ '--_index': 9, '--_image-url': "url('/projects/gmcs-dashboard.vercel.app.png')", '--hover-color': 'rgba(100, 116, 139, 0.9)' }}>
+                    <a href="https://gmcs-dashboard.vercel.app" target="_blank" rel="noopener noreferrer">GMCS Dashboard</a>
+                  </li>
+                  <li className="carousel-ground"></li>
+                </ul>
+              </div>
             </div>
           </motion.div>
         </motion.div>
-      </div>
 
-      <motion.div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: [0, 1, 1, 0], y: [0, 6, 0, -6] }} transition={{ duration: 3, repeat: Infinity, repeatDelay: 0.5 }}>
-        <motion.div className="text-xs text-primary mb-3 flex items-center gap-2 px-4 py-2 rounded-full bg-background/80 backdrop-blur-sm border border-border shadow-lg" whileHover={{ scale: 1.05 }}>
-          <MousePointerClick className="h-3 w-3" />
-          <span>Explore Technical Portfolio</span>
+        {/* Scroll Down Indicator — Positioned cleanly in the dark space above About Me section */}
+        <motion.div 
+          className="w-full flex flex-col items-center justify-center mt-12 sm:mt-16 pb-4 relative z-20" 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <a href="#about" className="flex flex-col items-center group cursor-pointer">
+            <motion.div 
+              className="text-xs text-primary mb-3 flex items-center gap-2 px-4 py-2 rounded-full bg-background/90 backdrop-blur-md border border-primary/30 shadow-lg group-hover:border-primary transition-all" 
+              whileHover={{ scale: 1.05 }}
+            >
+              <MousePointerClick className="h-3.5 w-3.5 animate-pulse" />
+              <span className="font-semibold">Explore Technical Portfolio</span>
+            </motion.div>
+            <motion.div 
+              animate={{ y: [0, 6, 0] }} 
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }} 
+              className="w-5 h-8 border-2 border-primary/40 rounded-full flex justify-center backdrop-blur-sm"
+            >
+              <motion.div 
+                animate={{ y: [0, 8, 0] }} 
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }} 
+                className="w-1.5 h-2 bg-primary rounded-full mt-2" 
+              />
+            </motion.div>
+          </a>
         </motion.div>
-        <motion.div animate={{ y: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity }} className="w-5 h-8 border-2 border-primary/30 rounded-full flex justify-center">
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }} className="w-1 h-2 bg-primary rounded-full mt-2" />
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };

@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
   try {
     const cv = await getCv();
     if (!cv) {
-      return res.status(404).json({ success: false, message: 'No CV found' });
+      return res.status(200).json({ success: true, cv: null, message: 'No CV found' });
     }
     return res.status(200).json({ success: true, cv });
   } catch (e) {

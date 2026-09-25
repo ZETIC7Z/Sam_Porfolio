@@ -237,41 +237,36 @@ export const AboutSection = () => {
             {/* Work Together */}
             <div className="bg-card/50 border border-border rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl transition-all duration-500 hover:shadow-3xl hover:border-primary/40 hover:bg-card/60">
               <h3 className="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Let's Work Together</h3>
-              <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0">
-                <a href="#contact" className="flex-1 block w-full p-3 sm:p-4 bg-primary text-primary-foreground rounded-xl text-center font-semibold transition-all duration-300 hover:bg-primary/90 hover:scale-105 hover:shadow-lg group">
-                  <div className="flex items-center justify-center gap-2 sm:gap-3"><User className="h-4 sm:h-5 w-4 sm:w-5 group-hover:scale-110 transition-transform duration-300" />Start a Project</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <a href="#contact" className="h-12 px-4 bg-primary text-primary-foreground rounded-xl font-semibold text-sm transition-all duration-300 hover:bg-primary/90 hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-2 group">
+                  <User className="h-4 w-4 group-hover:scale-110 transition-transform duration-300 shrink-0" />
+                  <span className="whitespace-nowrap">Start a Project</span>
                 </a>
 
                 {/* CV Actions */}
                 {cvLoading ? (
                   <button
                     disabled
-                    className="flex-1 block w-full p-3 sm:p-4 border border-border rounded-xl text-center font-semibold transition-all duration-300 opacity-50 cursor-not-allowed"
+                    className="h-12 px-4 border border-border rounded-xl font-semibold text-sm transition-all duration-300 opacity-50 cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    <div className="flex items-center justify-center gap-2 sm:gap-3">
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                      Loading...
-                    </div>
+                    <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin shrink-0" />
+                    <span>Loading...</span>
                   </button>
                 ) : cvUrl ? (
                   <button
                     onClick={handleDownload}
-                    className="flex-1 block w-full p-3 sm:p-4 border border-border rounded-xl text-center font-semibold transition-all duration-300 hover:bg-accent hover:border-primary/30 hover:scale-105 hover:shadow-lg group"
+                    className="h-12 px-4 border border-border rounded-xl font-semibold text-sm transition-all duration-300 hover:bg-accent hover:border-primary/30 hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-2 group"
                   >
-                    <div className="flex items-center justify-center gap-2 sm:gap-3">
-                      <Download className="h-4 sm:h-5 w-4 sm:w-5 group-hover:translate-y-0.5 transition-transform duration-300" />
-                      Download Resume
-                    </div>
+                    <Download className="h-4 w-4 group-hover:translate-y-0.5 transition-transform duration-300 shrink-0" />
+                    <span className="whitespace-nowrap">Download Resume</span>
                   </button>
                 ) : (
                   <a
                     href="/dashboard"
-                    className="flex-1 block w-full p-3 sm:p-4 border border-border rounded-xl text-center font-semibold transition-all duration-300 hover:bg-accent hover:border-primary/30 hover:scale-105 hover:shadow-lg group"
+                    className="h-12 px-4 border border-border rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300 hover:bg-accent hover:border-primary/30 hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-2 group"
                   >
-                    <div className="flex items-center justify-center gap-2 sm:gap-3">
-                      <Upload className="h-4 sm:h-5 w-4 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
-                      No CV — Upload in Dashboard
-                    </div>
+                    <Upload className="h-4 w-4 group-hover:scale-110 transition-transform duration-300 shrink-0" />
+                    <span className="whitespace-nowrap">Upload Resume (CV)</span>
                   </a>
                 )}
               </div>

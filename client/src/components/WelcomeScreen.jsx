@@ -1,278 +1,279 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
-import { useTheme } from "next-themes";
+import React, { useState, useEffect, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import "remixicon/fonts/remixicon.css";
 
 const WelcomeScreen = ({ onWelcomeComplete }) => {
-  const [phase, setPhase] = useState(0);
-  const [exitAnimation, setExitAnimation] = useState(false);
-  const [typedText, setTypedText] = useState("");
-  const { theme } = useTheme();
+  const [showContent, setShowContent] = useState(false);
+  const containerRef = useRef(null);
 
-  // Theme-based colors
-  const colors = {
-    light: {
-      primary: "hsl(222.2 47.4% 11.2%)",
-      secondary: "hsl(262.1 83.3% 57.8%)",
-      background: "hsl(0 0% 100%)",
-      muted: "hsl(215.4 16.3% 46.9%)",
-      link: "hsl(221.2 83.2% 53.3%)"
-    },
-    dark: {
-      primary: "hsl(210 40% 98%)",
-      secondary: "hsl(263.4 70% 50.4%)",
-      background: "hsl(222.2 47.4% 11.2%)",
-      muted: "hsl(215 20.2% 65.1%)",
-      link: "hsl(217.2 91.2% 59.8%)"
-    }
-  };
+  useGSAP(() => {
+    const tl = gsap.timeline();
 
-  const currentColors = colors[theme] || colors.dark;
-  const portfolioUrl = "www.zeticuz.xyz";
-  const welcomeMessages = [
-    "Crafting digital experiences",
-    "Software Engineer",
-    "Full-stack development"
-  ];
-
-  useEffect(() => {
-    const phase1 = setTimeout(() => setPhase(1), 800);
-    const phase2 = setTimeout(() => setPhase(2), 1600);
-    const phase3 = setTimeout(() => setPhase(3), 2400);
-    const complete = setTimeout(() => {
-      setExitAnimation(true);
-      setTimeout(onWelcomeComplete, 1000);
-    }, 5000);
-
-    return () => {
-      clearTimeout(phase1);
-      clearTimeout(phase2);
-      clearTimeout(phase3);
-      clearTimeout(complete);
-    };
-  }, [onWelcomeComplete]);
-
-  useEffect(() => {
-    if (phase >= 2) {
-      let i = 0;
-      const typingInterval = setInterval(() => {
-        if (i <= portfolioUrl.length) {
-          setTypedText(portfolioUrl.substring(0, i));
-          i++;
-        } else {
-          clearInterval(typingInterval);
-        }
-      }, 40);
-
-      return () => clearInterval(typingInterval);
-    }
-  }, [phase]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3
-      }
-    },
-    exit: {
-      y: "-100vh",
+    tl.to(".vi-mask-group", {
+      rotate: 10,
+      duration: 2,
+      ease: "Power4.easeInOut",
+      transformOrigin: "50% 50%",
+    }).to(".vi-mask-group", {
+      scale: 10,
+      duration: 2,
+      delay: -1.8,
+      ease: "Expo.easeInOut",
+      transformOrigin: "50% 50%",
       opacity: 0,
-      transition: {
-        duration: 1,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
+      onUpdate: function () {
+        if (this.progress() >= 0.9) {
+          const svgEl = document.querySelector(".vi-svg-loader");
+          if (svgEl) svgEl.remove();
+          setShowContent(true);
+          this.kill();
+        }
+      },
+    });
+  });
 
-  const contentVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
+  useGSAP(() => {
+    if (!showContent) return;
 
-  const underlineVariants = {
-    hidden: { scaleX: 0 },
-    visible: {
-      scaleX: 1,
-      transition: {
-        delay: 0.8,
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
+    gsap.to(".main-gtavi", {
+      scale: 1,
+      rotate: 0,
+      duration: 2,
+      delay: -1,
+      ease: "Expo.easeInOut",
+    });
 
-  const cursorVariants = {
-    blinking: {
-      opacity: [0, 0, 1, 1],
-      transition: {
-        duration: 1,
-        repeat: Infinity,
-        repeatDelay: 0
+    gsap.to(".sky", {
+      scale: 1.0,
+      rotate: 0,
+      duration: 2,
+      delay: -0.8,
+      ease: "Expo.easeInOut",
+    });
+
+    gsap.to(".bg", {
+      scale: 1.0,
+      rotate: 0,
+      duration: 2,
+      delay: -0.8,
+      ease: "Expo.easeInOut",
+    });
+
+    gsap.to(".character", {
+      scale: 1.05,
+      x: "-50%",
+      bottom: "6%",
+      rotate: 0,
+      duration: 2,
+      delay: -0.8,
+      ease: "Expo.easeInOut",
+    });
+
+    gsap.to(".text-gta", {
+      scale: 1,
+      rotate: 0,
+      duration: 2,
+      delay: -0.8,
+      ease: "Expo.easeInOut",
+    });
+
+    const main = document.querySelector(".main-gtavi");
+    if (!main) return;
+
+    const handleMouseMove = (e) => {
+      const xMove = (e.clientX / window.innerWidth - 0.5) * 40;
+      const yMove = (e.clientY / window.innerHeight - 0.5) * 20;
+
+      gsap.to(".main-gtavi .text-gta", {
+        x: `${xMove * 0.4}%`,
+        y: `${yMove * 0.2}%`,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+      gsap.to(".sky", {
+        x: xMove,
+        y: yMove * 0.5,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+      gsap.to(".bg", {
+        x: xMove * 1.7,
+        y: yMove * 1.2,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+      gsap.to(".character", {
+        x: `calc(-50% + ${xMove * 0.8}px)`,
+        y: yMove * 0.5,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    };
+
+    main.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      main.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [showContent]);
+
+  const handleEnterSite = () => {
+    try {
+      if (!window.__GLOBAL_AUDIO__) {
+        window.__GLOBAL_AUDIO__ = new Audio("/music.mp3");
+        window.__GLOBAL_AUDIO__.loop = true;
       }
+      window.__GLOBAL_AUDIO__.volume = 0.8;
+      window.__GLOBAL_AUDIO__.muted = false;
+      window.__GLOBAL_AUDIO__.play().then(() => {
+        window.dispatchEvent(new CustomEvent("portfolio:audioStarted", { detail: { volume: 0.8 } }));
+      }).catch((err) => console.log("Audio play error:", err));
+    } catch (e) {
+      console.error("Audio init error:", e);
+    }
+
+    window.__AUTOPLAY_AUDIO__ = true;
+    if (onWelcomeComplete) {
+      onWelcomeComplete();
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Welcome Screen */}
-      <motion.div
-        className="h-full w-full flex items-center justify-center p-4"
-        style={{ backgroundColor: currentColors.background }}
-        variants={containerVariants}
-        initial="hidden"
-        animate={exitAnimation ? "exit" : "visible"}
-      >
-        {/* Animated background elements - scaled down for mobile */}
-        <motion.div className="absolute inset-0 -z-10 overflow-hidden opacity-20">
-          <motion.div 
-            className="absolute top-1/4 left-1/4 w-32 h-32 md:w-64 md:h-64 rounded-full blur-[50px] md:blur-[100px]"
-            style={{ 
-              background: `linear-gradient(to right, ${currentColors.primary}, ${currentColors.secondary})`
-            }}
-            animate={{
-              x: [0, 20, 0],
-              y: [0, -30, 0],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              ease: 'easeInOut'
-            }}
+    <div ref={containerRef} className="fixed inset-0 z-[9999] overflow-y-auto overflow-x-hidden bg-black text-white font-sans select-none">
+      {/* Intro Mask Animation */}
+      <div className="vi-svg-loader flex items-center justify-center fixed top-0 left-0 z-[100] w-full h-screen overflow-hidden bg-[#000]">
+        <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" className="w-full h-full">
+          <defs>
+            <mask id="viMask">
+              <rect width="100%" height="100%" fill="black" />
+              <g className="vi-mask-group">
+                <text
+                  x="50%"
+                  y="50%"
+                  fontSize="250"
+                  textAnchor="middle"
+                  fill="white"
+                  dominantBaseline="middle"
+                  fontFamily="Arial Black, Impact, sans-serif"
+                >
+                  VI
+                </text>
+              </g>
+            </mask>
+          </defs>
+          <image
+            href="/bg.png"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid slice"
+            mask="url(#viMask)"
           />
-          <motion.div 
-            className="absolute top-1/3 right-1/4 w-36 h-36 md:w-72 md:h-72 rounded-full blur-[60px] md:blur-[120px]"
-            style={{ 
-              background: `linear-gradient(to right, ${currentColors.secondary}, #ec4899)`
-            }}
-            animate={{
-              x: [0, -30, 0],
-              y: [0, 40, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              ease: 'easeInOut'
-            }}
-          />
-        </motion.div>
+        </svg>
+      </div>
 
-        <div className="w-full max-w-2xl mx-auto text-center px-4">
-          <motion.div className="space-y-4 md:space-y-8">
-            {phase >= 0 && (
-              <motion.div variants={contentVariants}>
-                <motion.div 
-                  className="text-sm md:text-lg lg:text-xl font-mono mb-2 md:mb-4 inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-2 rounded-full border"
-                  style={{
-                    color: currentColors.primary,
-                    backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
-                    borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                  }}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                >
-                  <Sparkles className="h-3 w-3 md:h-4 md:w-4" />
-                  {welcomeMessages[phase % welcomeMessages.length]}
-                </motion.div>
-              </motion.div>
-            )}
+      {/* Main 3D Parallax Stage */}
+      {showContent && (
+        <div className="main-gtavi w-full rotate-[-10deg] scale-[1.0]">
+          {/* Top 3D Parallax Landing Section */}
+          <div className="landing overflow-hidden relative w-full h-screen bg-black">
+            {/* Top Navigation */}
+            <div className="navbar absolute top-0 left-0 z-[20] w-full py-10 px-10">
+              <div className="logo flex gap-7 items-center">
+                <div className="lines flex flex-col gap-[5px]">
+                  <div className="line w-15 h-2 bg-white"></div>
+                  <div className="line w-8 h-2 bg-white"></div>
+                  <div className="line w-5 h-2 bg-white"></div>
+                </div>
+                <h3 className="text-4xl -mt-[8px] leading-none text-white font-bold">
+                  ZETICUZ
+                </h3>
+              </div>
+            </div>
 
-            {phase >= 1 && (
-              <motion.h1 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-tight"
-                style={{ color: currentColors.primary }}
-                variants={contentVariants}
+            {/* 3D Layers Container */}
+            <div className="imagesdiv relative overflow-hidden w-full h-screen">
+              {/* Layer 1: Sky (Fully unzoomed 1.0x scale) */}
+              <img
+                className="absolute sky scale-[1.0] rotate-[-20deg] top-0 left-0 w-full h-full object-cover"
+                src="/sky.png"
+                alt="Sky"
+              />
+              
+              {/* Layer 2: City Backdrop (Fully unzoomed 1.0x scale to display full city background view) */}
+              <img
+                className="absolute scale-[1.0] rotate-[-3deg] bg top-0 left-0 w-full h-full object-cover"
+                src="/bg.png"
+                alt="City Backdrop"
+              />
+
+              {/* Layer 3: Grand Theft Auto 3D Text (Shifted up to top-10 so 'auto' is fully readable) */}
+              <div className="text-gta text-white flex flex-col gap-3 absolute top-10 left-1/2 -translate-x-1/2 scale-[1.4] rotate-[-10deg] pointer-events-none select-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+                <h1 className="text-[12rem] leading-none -ml-40 font-black tracking-tighter">grand</h1>
+                <h1 className="text-[12rem] leading-none ml-20 font-black tracking-tighter">theft</h1>
+                <h1 className="text-[12rem] leading-none -ml-40 font-black tracking-tighter">auto</h1>
+              </div>
+
+              {/* Layer 4: Main Character Overlay — Positioned on left (32%) with exact proportioned body, tattoos, and waist gun */}
+              <img
+                className="absolute character -bottom-[80%] left-[32%] -translate-x-1/2 scale-[1.8] rotate-[-20deg] h-[80vh] max-h-[680px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]"
+                src="/girlbg.png"
+                alt="Main Character"
+              />
+            </div>
+
+            {/* Bottom Bar: Left Scroll Down, Center PS5, Right ENTER SITE Button */}
+            <div className="btmbar text-white absolute bottom-0 left-0 w-full py-10 px-10 bg-gradient-to-t from-black via-black/80 to-transparent z-[30] flex items-center justify-between">
+              
+              {/* Left Side: Scroll Down Indicator */}
+              <div className="flex gap-4 items-center">
+                <i className="text-4xl ri-arrow-down-line"></i>
+                <h3 className="text-xl font-[Helvetica_Now_Display]">
+                  Scroll Down
+                </h3>
+              </div>
+
+              {/* Center: PS5 / Xbox Badges */}
+              <img
+                className="hidden sm:block h-[55px] object-contain"
+                src="/ps5.png"
+                alt="PS5 / Xbox"
+              />
+
+              {/* Right Side: ENTER SITE Button */}
+              <button
+                onClick={handleEnterSite}
+                className="px-8 py-3.5 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xl tracking-wider uppercase border-2 border-yellow-300 shadow-[0_0_25px_rgba(234,179,8,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3 cursor-pointer"
               >
-                <span className="inline-block">Hello</span>
-                <motion.span 
-                  className="inline-block ml-2 sm:ml-3 relative"
-                  style={{ color: currentColors.secondary }}
-                  variants={contentVariants}
-                >
-                  There !
-                  <motion.span 
-                    className="absolute -bottom-1 sm:-bottom-2 left-0 h-0.5 sm:h-1 w-full"
-                    style={{ backgroundColor: currentColors.secondary }}
-                    variants={underlineVariants}
-                  />
-                </motion.span>
-              </motion.h1>
-            )}
+                <span>ENTER SITE</span>
+                <i className="ri-arrow-right-line text-2xl"></i>
+              </button>
+            </div>
+          </div>
 
-            {phase >= 2 && (
-              <motion.div 
-                className="text-base sm:text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed font-light"
-                style={{ color: currentColors.muted }}
-                variants={contentVariants}
-              >
-                <motion.div 
-                  className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg font-mono flex justify-center items-center"
-                  style={{ color: currentColors.link }}
-                >
-                  {typedText}
-                  {phase >= 2 && (
-                    <motion.span 
-                      className="ml-0.5 h-4 sm:h-5 md:h-6 w-0.5 sm:w-1 inline-block"
-                      style={{ backgroundColor: currentColors.link }}
-                      variants={cursorVariants}
-                      animate="blinking"
-                    />
-                  )}
-                </motion.div>
-                <motion.p 
-                  className="mt-2 sm:mt-4 text-xs sm:text-sm md:text-base"
-                  style={{ color: currentColors.muted }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.5 }}
-                >
-                  (This is my portfolio website)
-                </motion.p>
-              </motion.div>
-            )}
-
-            {phase >= 3 && (
-              <motion.div 
-                className="pt-4 sm:pt-6 md:pt-8"
-                variants={contentVariants}
-              >
-                <motion.div 
-                  className="h-1 sm:h-2 w-16 sm:w-20 rounded-full mx-auto"
-                  style={{ backgroundColor: currentColors.secondary + '80' }}
-                  animate={{
-                    scaleX: [1, 1.5, 1],
-                    opacity: [1, 0.7, 1]
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity
-                  }}
+          {/* Scrollable Content Section Below Landing Page */}
+          <div className="w-full h-screen flex items-center justify-center bg-black">
+            <div className="cntnr flex flex-col md:flex-row text-white w-full h-[80%] px-10 gap-10 items-center justify-center">
+              <div className="limg relative w-full md:w-1/2 h-full flex items-center justify-center">
+                <img
+                  className="scale-[1.1] max-h-[80%] object-contain"
+                  src="/welcome-section.png"
+                  alt="ZETICUZ Portfolio"
                 />
-                <motion.p 
-                  className="mt-2 sm:mt-4 text-xs sm:text-sm opacity-70"
-                  style={{ color: currentColors.muted }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  Loading my best work for you...
-                </motion.p>
-              </motion.div>
-            )}
-          </motion.div>
+              </div>
+              <div className="rg w-full md:w-[40%] py-10 flex flex-col justify-center">
+                <h1 className="text-6xl lg:text-7xl font-bold">Still Running,</h1>
+                <h1 className="text-6xl lg:text-7xl font-bold text-yellow-500">Not Hunting</h1>
+                <p className="mt-6 text-lg text-gray-300 font-[Helvetica_Now_Display] leading-relaxed">
+                  Welcome to the ultimate interactive 3D portfolio experience. Built with cutting-edge web technologies, high performance animations, and seamless audio integration.
+                </p>
+                <p className="mt-3 text-lg text-gray-400 font-[Helvetica_Now_Display] leading-relaxed">
+                  Explore full-stack applications, enterprise dashboards, streaming PWAs, and custom interactive digital experiences.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </motion.div>
+      )}
     </div>
   );
 };

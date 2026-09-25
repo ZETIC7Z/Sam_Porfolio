@@ -1,6 +1,6 @@
-import { ArrowRight, Github, ChevronUp, Star, Code, ChevronDown, Filter, Sparkles, Zap, Play, Eye, X } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowRight, Github, ChevronUp, Star, Code, ChevronDown, Filter, Sparkles, Zap, Play, Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ALL_CATEGORIES = [
   "Community Platforms", "Corporate & Agency", "Directories & Listings",
@@ -12,14 +12,15 @@ const ALL_CATEGORIES = [
   "Video & Streaming", "Visual Arts & Design",
 ];
 
-const DEFAULT_PROJECTS = [
+export const DEFAULT_PROJECTS = [
   {
     id: 1,
     title: "SWS Skeptrons",
     categories: ["Community Platforms"],
     shortDescription: "Official website of the Social Welfare Skeptrons chapter featuring member verification, anniversary countdown, and event gallery.",
     description: "Official website of the Social Welfare Skeptrons chapter featuring member verification, anniversary countdown, and event gallery.",
-    image: "/projects/project9.png",
+    image: "/projects/sws-landscape.png",
+    portraitImage: "/projects/sws-portrait.png",
     tags: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "MongoDB", "Express.js", "shadcn/ui"],
     demoUrl: "https://sws-skeptrons.vercel.app",
     githubUrl: "https://github.com/ZETIC7Z/sws-website",
@@ -34,7 +35,8 @@ const DEFAULT_PROJECTS = [
     categories: ["Video & Streaming"],
     shortDescription: "Entertainment hub for discovering movies, TV shows, and personalities with personalized dashboards and watchlists.",
     description: "Entertainment hub for discovering movies, TV shows, and personalities with personalized dashboards and watchlists.",
-    image: "/projects/project10.png",
+    image: "/projects/zetflix-tv.vercel.app.png",
+    portraitImage: "/projects/zetflix-portrait.png",
     tags: ["React", "Node.js", "MongoDB", "Material-UI", "TMDB API", "Supabase", "Redux"],
     demoUrl: "https://zetflix-tv.vercel.app",
     githubUrl: "https://github.com/ZETIC7Z/ZETFLIX-OFFICIAL",
@@ -49,7 +51,8 @@ const DEFAULT_PROJECTS = [
     categories: ["Video & Streaming", "Progressive Web Apps (PWA)"],
     shortDescription: "Premium streaming platform with HD movies, TV shows, and anime featuring a Netflix-style player and PWA support.",
     description: "Premium streaming platform with HD movies, TV shows, and anime featuring a Netflix-style player and PWA support.",
-    image: "/projects/project11.png",
+    image: "/projects/nexus-landscape.png",
+    portraitImage: "/projects/nexus-portrait.png",
     tags: ["React", "TypeScript", "Tailwind CSS", "Zustand", "HLS.js", "PWA", "Vite"],
     demoUrl: "https://www.zeticuz.online",
     githubUrl: "https://github.com/ZETIC7Z/NEXUS",
@@ -60,18 +63,19 @@ const DEFAULT_PROJECTS = [
   },
   {
     id: 4,
-    title: "GMCS Dashboard",
-    categories: ["Enterprise Dashboards"],
-    shortDescription: "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
-    description: "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
-    image: "/projects/project12.png",
-    tags: ["HTML", "JavaScript", "Node.js", "Express.js", "Vercel Blob", "Excel Parsing"],
-    demoUrl: "https://gmcs-dashboard.vercel.app",
-    githubUrl: "https://github.com/ZETIC7Z/GMCS-Dashboard",
+    title: "Autobiography Website",
+    categories: ["Single Page Applications (SPA)", "News & Publishing"],
+    shortDescription: "Premium animated author portfolio for Nwanganga Shields — memoirist and former medical doctor. Features interactive book library, visitor analytics heatmap, and admin dashboard.",
+    description: "Premium animated author portfolio for Nwanganga Shields — memoirist and former medical doctor. Features interactive book library, visitor analytics heatmap, and admin dashboard.",
+    image: "/projects/autobiography-landscape.png",
+    portraitImage: "/projects/autobiography-portrait.png",
+    tags: ["TanStack Start", "React", "TypeScript", "Tailwind CSS", "Supabase", "Framer Motion", "Recharts"],
+    demoUrl: "https://nwanganga-shields.vercel.app",
+    githubUrl: "https://github.com/ZETIC7Z/autobiography-test",
     featured: true,
-    accentColor: "from-slate-500 to-gray-600",
+    accentColor: "from-amber-500 to-orange-600",
     status: "Live",
-    highlights: ["Compliance tracking", "Geolocation analytics", "Theme switching"]
+    highlights: ["Interactive book library", "Visitor analytics heatmap", "Admin dashboard"]
   },
   {
     id: 5,
@@ -79,7 +83,8 @@ const DEFAULT_PROJECTS = [
     categories: ["Gaming & eSports"],
     shortDescription: "Premium gaming portal for the Dekaron MMORPG community featuring a 14-class character gallery and cinematic effects.",
     description: "Premium gaming portal for the Dekaron MMORPG community featuring a 14-class character gallery and cinematic effects.",
-    image: "/projects/project13.png",
+    image: "/projects/dekaron-landscape.png",
+    portraitImage: "/projects/dekaron-portrait.png",
     tags: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "Lucide React"],
     demoUrl: "https://dekaron-stampede.vercel.app",
     githubUrl: "https://github.com/ZETIC7Z/dekaron-stampede",
@@ -87,6 +92,70 @@ const DEFAULT_PROJECTS = [
     accentColor: "from-lime-500 to-green-600",
     status: "Live",
     highlights: ["14-class gallery", "Cinematic effects", "Responsive design"]
+  },
+  {
+    id: 6,
+    title: "CareerForm PH",
+    categories: ["SaaS & Software", "Progressive Web Apps (PWA)"],
+    shortDescription: "Civil Service Commission Personal Data Sheet (CS Form 212) builder with AI passport photo studio, digital e-signature, and Philippine government job board.",
+    description: "Civil Service Commission Personal Data Sheet (CS Form 212) builder with AI passport photo studio, digital e-signature, and Philippine government job board.",
+    image: "/projects/careerform-landscape.png",
+    portraitImage: "/projects/careerform-portrait.png",
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "MongoDB", "pdf-lib", "Three.js"],
+    demoUrl: "https://careerform-ph.vercel.app/",
+    githubUrl: "https://github.com/ZETIC7Z/CareerForm",
+    featured: true,
+    accentColor: "from-blue-500 to-indigo-600",
+    status: "Live",
+    highlights: ["CS Form 212 builder", "AI passport photo studio", "Government job board"]
+  },
+  {
+    id: 7,
+    title: "Life Coach Portfolio",
+    categories: ["Corporate & Agency", "Static Sites & Landing Pages"],
+    shortDescription: "Ultra-modern dark-luxury portfolio for Dr. Frances Gaik, PsyD — clinical psychologist, life coach, and author of Managing Depression with Qigong.",
+    description: "Ultra-modern dark-luxury portfolio for Dr. Frances Gaik, PsyD — clinical psychologist, life coach, and author of Managing Depression with Qigong. Features 3D floating book hero, ambient video backgrounds, animated signature splash intro, and 13-palette dark theme engine.",
+    image: "/projects/lifecoach-landscape.png",
+    portraitImage: "/projects/lifecoach-portrait.png",
+    tags: ["Next.js", "React", "TypeScript", "Three.js", "Framer Motion", "Playwright"],
+    demoUrl: "https://lifecoachdoc.vercel.app/",
+    githubUrl: "https://github.com/ZETIC7Z/Frances-Gaik-WEBSITE",
+    featured: true,
+    accentColor: "from-emerald-500 to-teal-600",
+    status: "Live",
+    highlights: ["3D floating book hero", "13-palette dark theme engine", "Animated signature intro"]
+  },
+  {
+    id: 8,
+    title: "Life Coach v2",
+    categories: ["Corporate & Agency", "Static Sites & Landing Pages"],
+    shortDescription: "Next-generation clinical psychology portfolio for Dr. Frances Gaik with 3D React Three Fiber elements, interactive book carousel, and Vercel Analytics integration.",
+    description: "Next-generation clinical psychology portfolio for Dr. Frances Gaik with 3D React Three Fiber elements, interactive book carousel, Radix UI components, and Vercel Analytics integration.",
+    image: "/projects/lifecoach2-landscape.png",
+    portraitImage: "/projects/lifecoach2-portrait.png",
+    tags: ["Next.js", "React", "TypeScript", "Three.js", "Tailwind CSS", "Radix UI", "Framer Motion"],
+    demoUrl: "https://lifecoachdoc2.vercel.app/",
+    githubUrl: "https://github.com/ZETIC7Z/lifecoachdoc2",
+    featured: true,
+    accentColor: "from-rose-500 to-pink-600",
+    status: "Live",
+    highlights: ["3D React Three Fiber", "Interactive book carousel", "Vercel Analytics"]
+  },
+  {
+    id: 9,
+    title: "GMCS Dashboard",
+    categories: ["Enterprise Dashboards"],
+    shortDescription: "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
+    description: "Interactive training compliance tracking dashboard for Accenture GMCS Philippines with analytics and theme switching.",
+    image: "/projects/gmcs-landscape.png",
+    portraitImage: "/projects/gmcs-dashboard.vercel.app.png",
+    tags: ["HTML", "JavaScript", "Node.js", "Express.js", "Vercel Blob", "Excel Parsing"],
+    demoUrl: "https://gmcs-dashboard.vercel.app",
+    githubUrl: "https://github.com/ZETIC7Z/GMCS-Dashboard",
+    featured: true,
+    accentColor: "from-slate-500 to-gray-600",
+    status: "Live",
+    highlights: ["Compliance tracking", "Geolocation analytics", "Theme switching"]
   }
 ];
 
@@ -124,8 +193,9 @@ export const ProjectsSection = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const videoRef = useRef(null);
-  const sectionRef = useRef(null);
 
   useEffect(() => {
     fetch(`${API_BASE}/api/projects?t=${Date.now()}`)
@@ -147,19 +217,35 @@ export const ProjectsSection = () => {
       .finally(() => setLoading(false));
   }, []);
   
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-  
-  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-  const opacityBg = useTransform(scrollYProgress, [0, 0.5, 1], [0.1, 0.2, 0.1]);
-
   const filteredProjects = activeFilter === "All"
     ? projects
     : projects.filter(project => (project.categories || [project.category])?.includes(activeFilter));
 
-  const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
+  // How many cards to show at a time
+  const cardsPerView = typeof window !== 'undefined' && window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+  const maxSlide = Math.max(0, filteredProjects.length - cardsPerView);
+
+  // Auto-slide every 4 seconds
+  useEffect(() => {
+    if (isPaused || filteredProjects.length <= cardsPerView) return;
+    const timer = setInterval(() => {
+      setSlideIndex(prev => prev >= maxSlide ? 0 : prev + 1);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isPaused, filteredProjects.length, cardsPerView, maxSlide]);
+
+  // Reset slide index on filter change
+  useEffect(() => {
+    setSlideIndex(0);
+  }, [activeFilter]);
+
+  const slideLeft = useCallback(() => {
+    setSlideIndex(prev => prev <= 0 ? maxSlide : prev - 1);
+  }, [maxSlide]);
+
+  const slideRight = useCallback(() => {
+    setSlideIndex(prev => prev >= maxSlide ? 0 : prev + 1);
+  }, [maxSlide]);
 
   const categories = ["All", ...ALL_CATEGORIES];
 
@@ -196,7 +282,6 @@ export const ProjectsSection = () => {
     <section 
       id="projects" 
       className="relative min-h-screen py-20 md:py-32 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5"
-      ref={sectionRef}
     >
       {/* Clean Background */}
       <div className="absolute inset-0 -z-10">
@@ -279,35 +364,56 @@ export const ProjectsSection = () => {
           </div>
         )}
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-          <AnimatePresence mode="wait">
-            {!loading && displayedProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: index * 0.1,
-                  type: "spring",
-                  stiffness: 100
-                }}
-                className="group"
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
-              >
-                <div className="relative bg-background border border-border rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 h-full flex flex-col">
+        {/* Projects Slider */}
+        <div
+          className="relative"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Left Arrow */}
+          {filteredProjects.length > cardsPerView && (
+            <button className="project-slider-arrow prev" onClick={slideLeft} aria-label="Previous projects">
+              <ChevronLeft size={20} />
+            </button>
+          )}
+          {/* Right Arrow */}
+          {filteredProjects.length > cardsPerView && (
+            <button className="project-slider-arrow next" onClick={slideRight} aria-label="Next projects">
+              <ChevronRight size={20} />
+            </button>
+          )}
+
+          <div className="overflow-hidden">
+            <div
+              className="project-slider-track"
+              style={{ transform: `translateX(-${slideIndex * (100 / cardsPerView)}%)` }}
+            >
+              {!loading && filteredProjects.map((project, index) => (
+                <div key={project.id} className="project-card-wrapper">
+                  <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: index * 0.1,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    className="group h-full"
+                    onMouseEnter={() => setHoveredProject(project.id)}
+                    onMouseLeave={() => setHoveredProject(null)}
+                  >
+                    <div className="relative bg-background border border-border rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 h-full flex flex-col">
                   
                   {/* Image/Video Section */}
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden bg-black/90">
                     <motion.img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
+                      decoding="async"
                     />
                     
                     {/* Status Badge */}
@@ -319,15 +425,6 @@ export const ProjectsSection = () => {
                       }`}>
                         {project.status}
                       </div>
-                    </div>
-
-                    {/* Category Badges */}
-                    <div className="absolute top-3 left-3 flex flex-wrap gap-1 max-w-[70%]">
-                      {(project.categories || [project.category]).slice(0, 3).map((cat, i) => (
-                        <span key={i} className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border bg-gradient-to-r ${categoryColors[cat] || 'from-gray-500 to-gray-600'} text-white border-white/20`}>
-                          {cat}
-                        </span>
-                      ))}
                     </div>
 
                     {/* Hover Actions */}
@@ -367,6 +464,15 @@ export const ProjectsSection = () => {
 
                   {/* Content Section */}
                   <div className="p-6 flex-1 flex flex-col">
+                    {/* Category Badges */}
+                    <div className="flex flex-wrap gap-1.5 mb-2.5">
+                      {(project.categories || [project.category]).slice(0, 3).map((cat, i) => (
+                        <span key={i} className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-gradient-to-r ${categoryColors[cat] || 'from-gray-500 to-gray-600'} text-white border-white/20 shadow-sm`}>
+                          {cat}
+                        </span>
+                      ))}
+                    </div>
+
                     <div className="flex items-start justify-between mb-3">
                       <h3 className="text-xl font-bold text-foreground">
                         {project.title}
@@ -450,43 +556,29 @@ export const ProjectsSection = () => {
                   <div className={`h-1 bg-gradient-to-r ${project.accentColor}`} />
                 </div>
               </motion.div>
-            ))}
-          </AnimatePresence>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* Load More */}
-        {filteredProjects.length > 3 && (
-          <motion.div 
-            className="text-center mt-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <motion.button
-              onClick={() => setShowAll(!showAll)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-medium transition-all duration-300 ${
-                showAll
-                  ? "bg-muted text-foreground border border-border"
-                  : "bg-primary text-primary-foreground hover:bg-primary/90"
+      {/* Slide Indicators */}
+      {filteredProjects.length > cardsPerView && (
+        <div className="flex justify-center gap-2 mt-6">
+          {Array.from({ length: maxSlide + 1 }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setSlideIndex(i)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                i === slideIndex ? 'bg-primary w-6' : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
               }`}
-            >
-              {showAll ? (
-                <>
-                  <ChevronUp size={18} />
-                  Show Less
-                </>
-              ) : (
-                <>
-                  View More Projects
-                  <ArrowRight size={18} />
-                </>
-              )}
-            </motion.button>
-          </motion.div>
-        )}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+
+
 
         {/* Simple CTA */}
         <motion.div 

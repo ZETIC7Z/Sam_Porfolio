@@ -4,7 +4,8 @@ import {
   SiJsonwebtokens, SiAxios, SiNodemon, SiGit, SiGithub,
   SiVite, SiVercel, SiPwa, SiSupabase, SiDocker, SiPnpm, SiEslint,
   SiPrettier, SiVitest, SiRedux, SiSass, SiPostcss, SiNextdotjs,
-  SiRadixui, SiReactrouter, SiGoogle, SiClaude, SiFigma, SiCanva
+  SiRadixui, SiReactrouter, SiGoogle, SiClaude, SiFigma, SiCanva,
+  SiThreedotjs, SiD3Dotjs, SiReacthookform, SiZod, SiSharp
 } from "react-icons/si";
 import { Code } from "lucide-react";
 
@@ -77,6 +78,21 @@ const iconMap = {
   "Google AntiGravity": SiGoogle,
   "Claude Code": SiClaude,
   Claude: SiClaude,
+
+  // New Technologies
+  "Next.js": SiNextdotjs,
+  "Three.js": SiThreedotjs,
+  "D3.js": SiD3Dotjs,
+  "React Hook Form": SiReacthookform,
+  Zod: SiZod,
+  Sharp: SiSharp,
+  Playwright: SiVitest,
+  "TanStack Start": SiReact,
+  "TanStack Router": SiReact,
+  "TanStack Query": SiReact,
+  Recharts: SiD3Dotjs,
+  "pdf-lib": SiNodedotjs,
+  GSAP: SiJavascript,
 };
 
 export const getTechIcon = (name) => iconMap[name] || Code;
@@ -105,6 +121,13 @@ export const techCategories = [
       "PostCSS",
       "Autoprefixer",
       "i18next",
+      "Next.js",
+      "Three.js",
+      "D3.js",
+      "React Hook Form",
+      "TanStack Start",
+      "Recharts",
+      "GSAP",
     ],
   },
   {
@@ -124,6 +147,8 @@ export const techCategories = [
       "validator",
       "Nodemon",
       "concurrently",
+      "Zod",
+      "Sharp",
     ],
   },
   {
@@ -151,6 +176,8 @@ export const techCategories = [
       "Dnd-kit",
       "Figma",
       "Canva",
+      "Playwright",
+      "pdf-lib",
     ],
   },
   {

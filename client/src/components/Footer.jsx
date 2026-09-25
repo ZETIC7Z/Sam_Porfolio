@@ -9,6 +9,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { SocialButton } from "@/components/SocialButton";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -73,21 +74,12 @@ export const Footer = () => {
               <p className="text-muted-foreground text-sm">
                 AI-First Full-Stack Engineer building scalable web apps, streaming platforms, and immersive digital experiences.
               </p>
-              <div className="flex gap-3">
-                {socialLinks.map((link, index) => (
-                  <motion.a
-                    key={index}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-all duration-300"
-                    aria-label={link.label}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {link.icon}
-                  </motion.a>
-                ))}
+              <div className="flex gap-3 flex-wrap">
+                <SocialButton href="https://github.com/ZETIC7Z" icon={<Github size={17} />} label="GitHub" platform="github" size="sm" />
+                <SocialButton href="https://www.facebook.com/samxerz.pangilinan/" icon={<Facebook size={17} />} label="Facebook" platform="facebook" size="sm" />
+                <SocialButton href="https://www.youtube.com/@ZETICUZ" icon={<Youtube size={17} />} label="YouTube" platform="youtube" size="sm" />
+                <SocialButton href="https://www.instagram.com/zeticuz_" icon={<Instagram size={17} />} label="Instagram" platform="instagram" size="sm" />
+                <SocialButton href="mailto:samxerz12@gmail.com" icon={<Mail size={17} />} label="Email" platform="email" size="sm" />
               </div>
             </motion.div>
 
@@ -147,6 +139,10 @@ export const Footer = () => {
               <form className="space-y-3">
                 <input 
                   type="email" 
+                  id="newsletter_email"
+                  name="newsletter_email"
+                  autoComplete="email"
+                  aria-label="Your email address"
                   placeholder="Your email" 
                   className="px-3 py-2 text-sm border border-border text-foreground bg-background/50 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary w-full"
                   required

@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { SocialButton } from "@/components/SocialButton";
 
 export const ContactSection = () => {
   // This file is lazy-loaded via React.lazy() which requires a default export
@@ -178,45 +179,12 @@ export const ContactSection = () => {
 
             <div className="pt-8 w-full text-center flex flex-col items-center">
               <h4 className="font-medium mb-3 sm:mb-4 text-xs sm:text-sm text-muted-foreground">Find me on</h4>
-              <div className="flex justify-center gap-2 sm:gap-3">
-                {[
-                  {
-                    icon: Facebook,
-                    label: "Facebook",
-                    url: "https://www.facebook.com/samxerz.pangilinan/",
-                  },
-                  {
-                    icon: Youtube,
-                    label: "YouTube",
-                    url: "https://www.youtube.com/@ZETICUZ",
-                  },
-                  {
-                    icon: Twitter,
-                    label: "Twitter",
-                    url: "https://www.instagram.com/zeticuz_?igsh=MW5ibWx6dzFpcXA3cQ",
-                  },
-                  {
-                    icon: Github,
-                    label: "GitHub",
-                    url: "https://github.com/ZETIC7Z",
-                  },
-                  {
-                    icon: Instagram,
-                    label: "Instagram",
-                    url: "https://www.instagram.com/zeticuz_?igsh=MW5ibWx6dzFpcXA3cQ",
-                  },
-                ].map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-accent hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="h-4 w-4 sm:h-5 sm:w-5" />
-                  </a>
-                ))}
+              <div className="flex justify-center gap-3">
+                <SocialButton href="https://www.facebook.com/samxerz.pangilinan/" icon={<Facebook className="h-5 w-5" />} label="Facebook" platform="facebook" />
+                <SocialButton href="https://www.youtube.com/@ZETICUZ" icon={<Youtube className="h-5 w-5" />} label="YouTube" platform="youtube" />
+                <SocialButton href="https://www.instagram.com/zeticuz_?igsh=MW5ibWx6dzFpcXA3cQ" icon={<Instagram className="h-5 w-5" />} label="Instagram" platform="instagram" />
+                <SocialButton href="https://github.com/ZETIC7Z" icon={<Github className="h-5 w-5" />} label="GitHub" platform="github" />
+                <SocialButton href="mailto:samxerz.zeticuz@gmail.com" icon={<Mail className="h-5 w-5" />} label="Email" platform="email" />
               </div>
             </div>
           </div>
@@ -243,6 +211,7 @@ export const ContactSection = () => {
                   type="text"
                   id="name"
                   name="name"
+                  autoComplete="name"
                   value={formData.name}
                   onChange={handleChange}
                   required
@@ -262,6 +231,7 @@ export const ContactSection = () => {
                   type="email"
                   id="email"
                   name="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
                   required

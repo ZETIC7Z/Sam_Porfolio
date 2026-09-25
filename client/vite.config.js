@@ -14,9 +14,21 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target: "http://localhost:3001",
         changeOrigin: true,
       },
     },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "animation-vendor": ["framer-motion", "gsap"],
+          "icons-vendor": ["lucide-react", "react-icons"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 800,
   },
 });
