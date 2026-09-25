@@ -177,14 +177,14 @@ const WelcomeScreen = ({ onWelcomeComplete }) => {
           {/* Top 3D Parallax Landing Section */}
           <div className="landing overflow-hidden relative w-full h-screen bg-black">
             {/* Top Navigation */}
-            <div className="navbar absolute top-0 left-0 z-[20] w-full py-10 px-10">
-              <div className="logo flex gap-7 items-center">
-                <div className="lines flex flex-col gap-[5px]">
-                  <div className="line w-15 h-2 bg-white"></div>
-                  <div className="line w-8 h-2 bg-white"></div>
-                  <div className="line w-5 h-2 bg-white"></div>
+            <div className="navbar absolute top-0 left-0 z-[20] w-full py-4 px-4 sm:py-6 sm:px-8 lg:py-10 lg:px-10">
+              <div className="logo flex gap-4 sm:gap-6 lg:gap-7 items-center">
+                <div className="lines flex flex-col gap-[3px] sm:gap-[4px] lg:gap-[5px]">
+                  <div className="line w-10 sm:w-12 lg:w-15 h-1 sm:h-1.5 lg:h-2 bg-white"></div>
+                  <div className="line w-6 sm:w-7 lg:w-8 h-1 sm:h-1.5 lg:h-2 bg-white"></div>
+                  <div className="line w-4 sm:w-5 lg:w-5 h-1 sm:h-1.5 lg:h-2 bg-white"></div>
                 </div>
-                <h3 className="text-4xl -mt-[8px] leading-none text-white font-bold">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl -mt-[4px] lg:-mt-[8px] leading-none text-white font-bold tracking-wider">
                   ZETICUZ
                 </h3>
               </div>
@@ -206,35 +206,35 @@ const WelcomeScreen = ({ onWelcomeComplete }) => {
                 alt="City Backdrop"
               />
 
-              {/* Layer 3: Grand Theft Auto 3D Text (Shifted up to top-10 so 'auto' is fully readable) */}
-              <div className="text-gta text-white flex flex-col gap-3 absolute top-10 left-1/2 -translate-x-1/2 scale-[1.4] rotate-[-10deg] pointer-events-none select-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-                <h1 className="text-[12rem] leading-none -ml-40 font-black tracking-tighter">grand</h1>
-                <h1 className="text-[12rem] leading-none ml-20 font-black tracking-tighter">theft</h1>
-                <h1 className="text-[12rem] leading-none -ml-40 font-black tracking-tighter">auto</h1>
+              {/* Layer 3: Grand Theft Auto 3D Text (Responsive sizing for mobile & tablet, 12rem on PC) */}
+              <div className="text-gta text-white flex flex-col gap-1 sm:gap-2 lg:gap-3 absolute top-14 sm:top-12 lg:top-10 left-1/2 -translate-x-1/2 scale-100 sm:scale-110 lg:scale-[1.4] rotate-[-10deg] pointer-events-none select-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] whitespace-nowrap">
+                <h1 className="text-[4.5rem] sm:text-[7rem] md:text-[9.5rem] lg:text-[12rem] leading-none -ml-10 sm:-ml-20 md:-ml-28 lg:-ml-40 font-black tracking-tighter">grand</h1>
+                <h1 className="text-[4.5rem] sm:text-[7rem] md:text-[9.5rem] lg:text-[12rem] leading-none ml-6 sm:ml-10 md:ml-16 lg:ml-20 font-black tracking-tighter">theft</h1>
+                <h1 className="text-[4.5rem] sm:text-[7rem] md:text-[9.5rem] lg:text-[12rem] leading-none -ml-10 sm:-ml-20 md:-ml-28 lg:-ml-40 font-black tracking-tighter">auto</h1>
               </div>
 
-              {/* Layer 4: Main Character Overlay — Positioned on left (32%) with exact proportioned body, tattoos, and waist gun */}
+              {/* Layer 4: Main Character Overlay — Centered on mobile/tablet, positioned left (32%) on desktop */}
               <img
-                className="absolute character -bottom-[80%] left-[32%] -translate-x-1/2 scale-[1.8] rotate-[-20deg] h-[80vh] max-h-[680px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]"
+                className="absolute character -bottom-[80%] left-1/2 sm:left-[42%] lg:left-[32%] -translate-x-1/2 scale-[1.8] rotate-[-20deg] h-[65vh] sm:h-[72vh] lg:h-[80vh] max-h-[520px] sm:max-h-[600px] lg:max-h-[680px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] pointer-events-none"
                 src="/girlbg.png"
                 alt="Main Character"
               />
             </div>
 
             {/* Bottom Bar: Left Scroll Down, Center PS5, Right ENTER SITE Button */}
-            <div className="btmbar text-white absolute bottom-0 left-0 w-full py-10 px-10 bg-gradient-to-t from-black via-black/80 to-transparent z-[30] flex items-center justify-between">
+            <div className="btmbar text-white absolute bottom-0 left-0 w-full py-4 px-4 sm:py-6 sm:px-8 lg:py-10 lg:px-10 bg-gradient-to-t from-black via-black/85 to-transparent z-[30] flex items-center justify-between gap-3">
               
               {/* Left Side: Scroll Down Indicator */}
-              <div className="flex gap-4 items-center">
-                <i className="text-4xl ri-arrow-down-line"></i>
-                <h3 className="text-xl font-[Helvetica_Now_Display]">
+              <div className="flex gap-2 sm:gap-3 lg:gap-4 items-center shrink-0">
+                <i className="text-2xl sm:text-3xl lg:text-4xl ri-arrow-down-line animate-bounce"></i>
+                <h3 className="text-xs sm:text-base lg:text-xl font-[Helvetica_Now_Display] tracking-wide whitespace-nowrap">
                   Scroll Down
                 </h3>
               </div>
 
               {/* Center: PS5 / Xbox Badges */}
               <img
-                className="hidden sm:block h-[55px] object-contain"
+                className="hidden md:block h-[38px] lg:h-[55px] object-contain shrink-0"
                 src="/ps5.png"
                 alt="PS5 / Xbox"
               />
@@ -242,31 +242,31 @@ const WelcomeScreen = ({ onWelcomeComplete }) => {
               {/* Right Side: ENTER SITE Button */}
               <button
                 onClick={handleEnterSite}
-                className="px-8 py-3.5 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xl tracking-wider uppercase border-2 border-yellow-300 shadow-[0_0_25px_rgba(234,179,8,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3 cursor-pointer"
+                className="px-4 py-2.5 sm:px-6 sm:py-3 lg:px-8 lg:py-3.5 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs sm:text-base lg:text-xl tracking-wider uppercase border-2 border-yellow-300 shadow-[0_0_25px_rgba(234,179,8,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-1.5 sm:gap-3 cursor-pointer shrink-0"
               >
                 <span>ENTER SITE</span>
-                <i className="ri-arrow-right-line text-2xl"></i>
+                <i className="ri-arrow-right-line text-base sm:text-xl lg:text-2xl"></i>
               </button>
             </div>
           </div>
 
           {/* Scrollable Content Section Below Landing Page */}
-          <div className="w-full h-screen flex items-center justify-center bg-black">
-            <div className="cntnr flex flex-col md:flex-row text-white w-full h-[80%] px-10 gap-10 items-center justify-center">
-              <div className="limg relative w-full md:w-1/2 h-full flex items-center justify-center">
+          <div className="w-full min-h-screen py-16 sm:py-20 lg:py-0 flex items-center justify-center bg-black">
+            <div className="cntnr flex flex-col md:flex-row text-white w-full max-w-7xl px-5 sm:px-8 lg:px-10 gap-8 sm:gap-10 items-center justify-center">
+              <div className="limg relative w-full md:w-1/2 flex items-center justify-center">
                 <img
-                  className="scale-[1.1] max-h-[80%] object-contain"
+                  className="w-auto max-h-[320px] sm:max-h-[460px] md:max-h-[580px] lg:max-h-[80%] object-contain scale-100 md:scale-[1.05] lg:scale-[1.1] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
                   src="/welcome-section.png"
                   alt="ZETICUZ Portfolio"
                 />
               </div>
-              <div className="rg w-full md:w-[40%] py-10 flex flex-col justify-center">
-                <h1 className="text-6xl lg:text-7xl font-bold">Still Running,</h1>
-                <h1 className="text-6xl lg:text-7xl font-bold text-yellow-500">Not Hunting</h1>
-                <p className="mt-6 text-lg text-gray-300 font-[Helvetica_Now_Display] leading-relaxed">
+              <div className="rg w-full md:w-[48%] lg:w-[40%] py-4 sm:py-8 lg:py-10 flex flex-col justify-center text-center md:text-left">
+                <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold leading-tight">Still Running,</h1>
+                <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-yellow-500 leading-tight">Not Hunting</h1>
+                <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-gray-300 font-[Helvetica_Now_Display] leading-relaxed">
                   Welcome to the ultimate interactive 3D portfolio experience. Built with cutting-edge web technologies, high performance animations, and seamless audio integration.
                 </p>
-                <p className="mt-3 text-lg text-gray-400 font-[Helvetica_Now_Display] leading-relaxed">
+                <p className="mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg text-gray-400 font-[Helvetica_Now_Display] leading-relaxed">
                   Explore full-stack applications, enterprise dashboards, streaming PWAs, and custom interactive digital experiences.
                 </p>
               </div>
